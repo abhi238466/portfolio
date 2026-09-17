@@ -1,0 +1,1548 @@
+/* =========================================================
+   PUBLIC HOME
+   Premium Personal Portfolio
+   Warm Editorial + Modern Developer Theme
+   ========================================================= */
+
+.public-home {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background: var(--app-bg);
+  color: var(--app-text);
+
+  transition:
+    background 350ms ease,
+    color 350ms ease;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.public-home-hero {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+
+  padding:
+    128px
+    clamp(24px, 5vw, 72px)
+    72px;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.public-home-background {
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+/* Main atmosphere */
+
+.public-home-background::before {
+  content: "";
+
+  position: absolute;
+  inset: -15%;
+
+  background:
+    radial-gradient(
+      ellipse 46% 58% at 4% 12%,
+      rgba(255, 130, 108, 0.13),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 42% 48% at 95% 18%,
+      rgba(255, 176, 122, 0.10),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 45% at 78% 90%,
+      rgba(232, 154, 185, 0.075),
+      transparent 72%
+    );
+
+  filter: blur(18px);
+
+  opacity: 0.95;
+}
+
+/* Center fade */
+
+.public-home-background::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse 70% 75% at 50% 45%,
+      transparent 0%,
+      transparent 48%,
+      rgba(8, 8, 8, 0.55) 100%
+    );
+}
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.public-home-grid {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.035;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.8) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.8) 1px,
+      transparent 1px
+    );
+
+  background-size: 72px 72px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      rgba(0, 0, 0, 0.7) 45%,
+      transparent 92%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      rgba(0, 0, 0, 0.7) 45%,
+      transparent 92%
+    );
+}
+
+/* =========================================================
+   AMBIENT ORBS
+   ========================================================= */
+
+.public-home-orb {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(105px);
+
+  pointer-events: none;
+}
+
+.public-home-orb-one {
+  width: 340px;
+  height: 340px;
+
+  top: -170px;
+  left: -130px;
+
+  background:
+    rgba(255, 130, 108, 0.12);
+}
+
+.public-home-orb-two {
+  width: 360px;
+  height: 360px;
+
+  right: -170px;
+  bottom: -190px;
+
+  background:
+    rgba(232, 154, 185, 0.08);
+}
+
+/* =========================================================
+   HERO CONTAINER
+   ========================================================= */
+
+.public-home-hero-container {
+  position: relative;
+
+  width: min(100%, 1360px);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(390px, 0.78fr);
+
+  align-items: center;
+
+  gap: clamp(24px, 3vw, 52px);
+}
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.public-home-hero-content {
+  position: relative;
+
+  width: 100%;
+  max-width: 760px;
+
+  z-index: 2;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.public-home-status {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 25px;
+
+  padding: 8px 13px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 999px;
+
+  background:
+    rgba(21, 19, 19, 0.72);
+
+  color: var(--app-text-muted);
+
+  font-size: 10px;
+  font-weight: 750;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.06),
+    0 10px 30px
+    rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.public-home-status-dot {
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: var(--app-coral);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(255, 130, 108, 0.10),
+    0 0 18px
+    rgba(255, 130, 108, 0.35);
+}
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.public-home-title {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+
+  letter-spacing: -0.06em;
+}
+
+.public-home-title-muted {
+  margin-bottom: 10px;
+
+  color: var(--app-text-muted);
+
+  font-size:
+    clamp(1rem, 1.35vw, 1.18rem);
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  letter-spacing: -0.02em;
+}
+
+.public-home-title-name {
+  max-width: 850px;
+
+  font-size:
+    clamp(3.5rem, 6.6vw, 6.5rem);
+
+  line-height: 0.92;
+
+  font-weight: 850;
+
+  letter-spacing: -0.085em;
+
+  background:
+    linear-gradient(
+      105deg,
+      var(--app-text) 0%,
+      var(--app-text-soft) 35%,
+      var(--app-coral) 70%,
+      var(--app-peach) 100%
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  filter:
+    drop-shadow(
+      0 12px 30px
+      rgba(255, 130, 108, 0.08)
+    );
+}
+
+/* =========================================================
+   ROLE
+   ========================================================= */
+
+.public-home-role-wrapper {
+  display: flex;
+  align-items: center;
+
+  min-height: 38px;
+
+  margin-top: 26px;
+}
+
+.public-home-role-prefix {
+  margin-right: 10px;
+
+  color: var(--app-coral);
+
+  font-size: 1.05rem;
+
+  font-weight: 850;
+}
+
+.public-home-role {
+  color: var(--app-text-soft);
+
+  font-size:
+    clamp(1.1rem, 1.8vw, 1.42rem);
+
+  line-height: 1.4;
+
+  font-weight: 550;
+
+  letter-spacing: -0.025em;
+}
+
+.public-home-role-cursor {
+  margin-left: 5px;
+
+  color: var(--app-coral);
+
+  font-size: 1.1rem;
+}
+
+/* =========================================================
+   INTRODUCTION
+   ========================================================= */
+
+.public-home-introduction {
+  max-width: 640px;
+
+  margin: 20px 0 0;
+
+  color: var(--app-text-muted);
+
+  font-size:
+    clamp(0.97rem, 1.15vw, 1.06rem);
+
+  line-height: 1.8;
+
+  letter-spacing: -0.008em;
+}
+
+/* =========================================================
+   ROLE LIST
+   ========================================================= */
+
+.public-home-role-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 11px;
+
+  margin-top: 24px;
+}
+
+.public-home-role-list-label {
+  color: var(--app-text-faint);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+}
+
+.public-home-role-list-items {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.public-home-role-chip {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 30px;
+
+  padding: 5px 11px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 8px;
+
+  background:
+    rgba(21, 19, 19, 0.68);
+
+  color: var(--app-text-muted);
+
+  font-size: 10px;
+  font-weight: 650;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.public-home-role-chip:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(255, 130, 108, 0.40);
+
+  background:
+    rgba(255, 130, 108, 0.07);
+
+  color: var(--app-text);
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.public-home-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 34px;
+}
+
+.public-home-primary-button,
+.public-home-secondary-button {
+  position: relative;
+
+  min-height: 52px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 750;
+
+  letter-spacing: -0.015em;
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.public-home-primary-button {
+  gap: 11px;
+
+  padding: 0 22px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 130, 108, 0.45);
+
+  background:
+    linear-gradient(
+      115deg,
+      var(--app-coral),
+      var(--app-peach)
+    );
+
+  color: #24130e;
+
+  box-shadow:
+    0 14px 35px
+    rgba(255, 130, 108, 0.20),
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.30);
+}
+
+.public-home-primary-button::before {
+  content: "";
+
+  position: absolute;
+  inset: 1px;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.16),
+      transparent 50%
+    );
+
+  pointer-events: none;
+}
+
+.public-home-primary-button::after {
+  content: "";
+
+  position: absolute;
+
+  top: -100%;
+  left: -60%;
+
+  width: 30%;
+  height: 300%;
+
+  transform: rotate(25deg);
+
+  background:
+    rgba(255, 255, 255, 0.25);
+
+  transition:
+    left 550ms ease;
+}
+
+.public-home-primary-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 22px 48px
+    rgba(255, 130, 108, 0.28),
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.34);
+}
+
+.public-home-primary-button:hover::after {
+  left: 125%;
+}
+
+.public-home-primary-button:active {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.public-home-secondary-button {
+  gap: 10px;
+
+  padding: 0 20px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  background:
+    rgba(21, 19, 19, 0.70);
+
+  color: var(--app-text-soft);
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.public-home-secondary-button:hover {
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(158, 217, 189, 0.42);
+
+  background:
+    rgba(158, 217, 189, 0.07);
+
+  color: var(--app-text);
+
+  box-shadow:
+    0 16px 35px
+    rgba(0, 0, 0, 0.15);
+}
+
+.public-home-secondary-button:active {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   SOCIALS
+   ========================================================= */
+
+.public-home-socials {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  margin-top: 23px;
+}
+
+.public-home-socials a {
+  width: 40px;
+  height: 40px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 11px;
+
+  background:
+    rgba(21, 19, 19, 0.68);
+
+  color: var(--app-text-faint);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.public-home-socials a:hover {
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(255, 130, 108, 0.42);
+
+  background:
+    rgba(255, 130, 108, 0.07);
+
+  color: var(--app-coral);
+}
+
+/* =========================================================
+   VISUAL AREA
+   ========================================================= */
+
+.public-home-visual {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: center;
+
+  min-height: 0;
+
+  transform: translate(-18px, -28px);
+}
+
+/* =========================================================
+   PROFILE FRAME
+   ========================================================= */
+
+.public-home-profile-frame {
+  position: relative;
+
+  width: min(100%, 450px);
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 14px;
+}
+
+/* Decorative ring */
+
+.public-home-profile-frame::before {
+  content: "";
+
+  position: absolute;
+
+  width: 88%;
+  aspect-ratio: 1;
+
+  border:
+    1px solid
+    rgba(255, 130, 108, 0.13);
+
+  border-radius: 50%;
+
+  transform:
+    rotate(-13deg)
+    translateY(8px);
+
+  box-shadow:
+    0 0 85px
+    rgba(255, 130, 108, 0.06);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   PROFILE GLOW
+   ========================================================= */
+
+.public-home-profile-glow {
+  position: absolute;
+
+  width: 78%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 130, 108, 0.16),
+      rgba(255, 176, 122, 0.055) 42%,
+      transparent 72%
+    );
+
+  filter: blur(45px);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   PROFILE CARD
+   ========================================================= */
+
+.public-home-profile-card {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(100%, 395px);
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #191716,
+      #121111
+    );
+
+  box-shadow:
+    0 32px 78px
+    rgba(0, 0, 0, 0.42),
+
+    0 0 70px
+    rgba(255, 130, 108, 0.055),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.065);
+
+  transition:
+    transform 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.public-home-profile-card:hover {
+  transform: translateY(-5px);
+
+  border-color:
+    rgba(255, 130, 108, 0.30);
+
+  box-shadow:
+    0 42px 90px
+    rgba(0, 0, 0, 0.48),
+
+    0 0 85px
+    rgba(255, 130, 108, 0.08),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================================
+   PROFILE IMAGE
+   ========================================================= */
+
+.public-home-profile-image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  max-width: 100%;
+  max-height: 510px;
+
+  object-fit: contain;
+  object-position: center;
+
+  border: 0;
+
+  transform: none;
+}
+
+/* =========================================================
+   PROFILE PLACEHOLDER
+   ========================================================= */
+
+.public-home-profile-placeholder {
+  width: 100%;
+
+  min-height: 330px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(255, 130, 108, 0.16),
+      transparent 43%
+    ),
+    linear-gradient(
+      145deg,
+      #191716,
+      #121111
+    );
+
+  color: var(--app-coral);
+}
+
+/* =========================================================
+   PROFILE FOOTER
+   ========================================================= */
+
+.public-home-profile-footer {
+  min-height: 54px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 17px;
+
+  border-top:
+    1px solid
+    var(--app-border-soft);
+
+  background:
+    rgba(8, 8, 8, 0.78);
+
+  color: var(--app-text-faint);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* =========================================================
+   PROFILE INDICATORS
+   ========================================================= */
+
+.public-home-profile-line {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.public-home-profile-line span {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--app-text-faint);
+}
+
+.public-home-profile-line span:first-child {
+  background: var(--app-coral);
+}
+
+.public-home-profile-line span:nth-child(2) {
+  background: var(--app-amber);
+}
+
+.public-home-profile-line span:nth-child(3) {
+  background: var(--app-mint);
+}
+
+/* =========================================================
+   PROFILE CODE
+   ========================================================= */
+
+.public-home-profile-code {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--app-text-faint);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+}
+
+.public-home-profile-code span:first-child {
+  color: var(--app-coral);
+}
+
+/* =========================================================
+   FLOATING LABELS
+   ========================================================= */
+
+.public-home-floating-card {
+  position: absolute;
+
+  z-index: 5;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-height: 39px;
+
+  padding: 0 12px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 11px;
+
+  background:
+    rgba(21, 19, 19, 0.90);
+
+  box-shadow:
+    0 15px 32px
+    rgba(0, 0, 0, 0.28),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  color: var(--app-text-muted);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.13em;
+
+  pointer-events: none;
+}
+
+.public-home-floating-card-top {
+  top: 3%;
+  right: -2px;
+}
+
+.public-home-floating-card-bottom {
+  left: -2px;
+  bottom: 3%;
+}
+
+.public-home-floating-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: var(--app-coral);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(255, 130, 108, 0.10),
+    0 0 14px
+    rgba(255, 130, 108, 0.30);
+}
+
+/* =========================================================
+   SCROLL INDICATOR
+   ========================================================= */
+
+.public-home-scroll-indicator {
+  position: absolute;
+
+  left: 50%;
+  bottom: 19px;
+
+  transform: translateX(-50%);
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--app-text-faint);
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  opacity: 0.8;
+}
+
+.public-home-scroll-icon {
+  width: 29px;
+  height: 29px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 50%;
+
+  background:
+    rgba(21, 19, 19, 0.68);
+}
+
+/* =========================================================
+   LIGHT THEME
+   ========================================================= */
+
+html.light .public-home {
+  background: var(--app-bg);
+
+  color: var(--app-text);
+}
+
+html.light .public-home-background::before {
+  background:
+    radial-gradient(
+      ellipse 46% 58% at 4% 12%,
+      rgba(255, 130, 108, 0.15),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 42% 48% at 95% 18%,
+      rgba(255, 176, 122, 0.12),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 40% 45% at 78% 90%,
+      rgba(232, 154, 185, 0.08),
+      transparent 72%
+    );
+}
+
+html.light .public-home-background::after {
+  background:
+    radial-gradient(
+      ellipse 70% 75% at 50% 45%,
+      transparent 0%,
+      transparent 52%,
+      rgba(247, 243, 238, 0.48) 100%
+    );
+}
+
+html.light .public-home-grid {
+  opacity: 0.028;
+
+  background-image:
+    linear-gradient(
+      rgba(48, 39, 33, 0.55) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(48, 39, 33, 0.55) 1px,
+      transparent 1px
+    );
+}
+
+html.light .public-home-status {
+  background:
+    rgba(255, 255, 255, 0.72);
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.85),
+    0 10px 30px
+    rgba(62, 48, 39, 0.07);
+}
+
+html.light .public-home-role-chip {
+  background:
+    rgba(255, 255, 255, 0.68);
+}
+
+html.light .public-home-secondary-button {
+  background:
+    rgba(255, 255, 255, 0.72);
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.85),
+    0 8px 25px
+    rgba(62, 48, 39, 0.05);
+}
+
+html.light .public-home-socials a {
+  background:
+    rgba(255, 255, 255, 0.70);
+}
+
+html.light .public-home-profile-card {
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f4eee8
+    );
+
+  box-shadow:
+    0 30px 72px
+    rgba(62, 48, 39, 0.15),
+
+    0 0 70px
+    rgba(232, 95, 75, 0.055),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.95);
+}
+
+html.light .public-home-profile-card:hover {
+  box-shadow:
+    0 38px 82px
+    rgba(62, 48, 39, 0.19),
+
+    0 0 82px
+    rgba(232, 95, 75, 0.075),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 1);
+}
+
+html.light .public-home-profile-placeholder {
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(255, 130, 108, 0.13),
+      transparent 43%
+    ),
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f4eee8
+    );
+}
+
+html.light .public-home-profile-footer {
+  background:
+    rgba(247, 243, 238, 0.88);
+}
+
+html.light .public-home-floating-card {
+  background:
+    rgba(255, 255, 255, 0.90);
+
+  box-shadow:
+    0 15px 32px
+    rgba(62, 48, 39, 0.12),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.95);
+}
+
+html.light .public-home-scroll-icon {
+  background:
+    rgba(255, 255, 255, 0.70);
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1440px) {
+  .public-home-hero {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+
+  .public-home-hero-container {
+    max-width: 1400px;
+
+    gap: 28px;
+  }
+
+  .public-home-title-name {
+    font-size:
+      clamp(5rem, 6.2vw, 7rem);
+  }
+
+  .public-home-profile-frame {
+    width: min(100%, 470px);
+  }
+
+  .public-home-profile-card {
+    width: min(100%, 410px);
+  }
+}
+
+/* =========================================================
+   LAPTOP
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .public-home-hero {
+    padding-top: 122px;
+  }
+
+  .public-home-hero-container {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(330px, 0.78fr);
+
+    gap: 24px;
+  }
+
+  .public-home-title-name {
+    font-size:
+      clamp(3.2rem, 6.3vw, 5.5rem);
+  }
+
+  .public-home-visual {
+    transform:
+      translate(-8px, -18px);
+  }
+
+  .public-home-profile-frame {
+    width: min(100%, 420px);
+  }
+
+  .public-home-profile-card {
+    width: min(100%, 380px);
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .public-home-hero {
+    min-height: auto;
+
+    padding:
+      118px
+      24px
+      88px;
+  }
+
+  .public-home-hero-container {
+    grid-template-columns: 1fr;
+
+    max-width: 760px;
+
+    gap: 55px;
+  }
+
+  .public-home-hero-content {
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    text-align: center;
+  }
+
+  .public-home-status,
+  .public-home-role-wrapper,
+  .public-home-role-list,
+  .public-home-actions,
+  .public-home-socials {
+    justify-content: center;
+  }
+
+  .public-home-introduction {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .public-home-visual {
+    transform: translateY(0);
+  }
+
+  .public-home-profile-frame {
+    width: min(100%, 450px);
+
+    margin: 0 auto;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .public-home-hero {
+    padding:
+      100px
+      18px
+      70px;
+  }
+
+  .public-home-hero-container {
+    gap: 44px;
+  }
+
+  .public-home-title-name {
+    font-size:
+      clamp(2.65rem, 13vw, 4.05rem);
+
+    line-height: 0.96;
+
+    letter-spacing: -0.075em;
+  }
+
+  .public-home-role-wrapper {
+    margin-top: 20px;
+  }
+
+  .public-home-role {
+    font-size: 1.04rem;
+  }
+
+  .public-home-introduction {
+    font-size: 0.94rem;
+
+    line-height: 1.75;
+  }
+
+  .public-home-role-list {
+    gap: 9px;
+  }
+
+  .public-home-role-list-items {
+    justify-content: center;
+  }
+
+  .public-home-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    width: min(100%, 330px);
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .public-home-primary-button,
+  .public-home-secondary-button {
+    width: 100%;
+  }
+
+  .public-home-visual {
+    transform: translateY(0);
+  }
+
+  .public-home-profile-frame {
+    width: min(100%, 390px);
+
+    padding: 6px;
+  }
+
+  .public-home-profile-card {
+    width: min(100%, 350px);
+
+    border-radius: 20px;
+  }
+
+  .public-home-profile-image {
+    max-height: 470px;
+  }
+
+  .public-home-profile-placeholder {
+    min-height: 300px;
+  }
+
+  .public-home-floating-card {
+    min-height: 36px;
+
+    padding: 0 9px;
+
+    font-size: 8px;
+  }
+
+  .public-home-floating-card-top {
+    right: 0;
+  }
+
+  .public-home-floating-card-bottom {
+    left: 0;
+  }
+
+  .public-home-scroll-indicator {
+    display: none;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .public-home-hero {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .public-home-title-name {
+    font-size: 2.5rem;
+  }
+
+  .public-home-profile-frame {
+    width: 100%;
+    padding: 3px;
+  }
+
+  .public-home-profile-card {
+    width: min(100%, 320px);
+  }
+
+  .public-home-profile-footer {
+    min-height: 50px;
+
+    padding: 0 13px;
+  }
+
+  .public-home-floating-card {
+    transform: scale(0.92);
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .public-home-profile-card,
+  .public-home-primary-button,
+  .public-home-secondary-button,
+  .public-home-socials a,
+  .public-home-role-chip {
+    transition: none;
+  }
+
+  .public-home-profile-card:hover,
+  .public-home-primary-button:hover,
+  .public-home-secondary-button:hover,
+  .public-home-socials a:hover,
+  .public-home-role-chip:hover {
+    transform: none;
+  }
+}

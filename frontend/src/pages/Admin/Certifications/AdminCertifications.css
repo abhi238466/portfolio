@@ -1,0 +1,463 @@
+
+/* =========================================================
+   ADMIN CERTIFICATIONS
+   Warm Editorial Theme
+   Responsive + Accessible Styling
+========================================================= */
+
+:root {
+  --admin-bg: #f5f1eb;
+  --admin-surface: #fffdfa;
+  --admin-surface-soft: #faf7f2;
+
+  --admin-text: #211e1c;
+  --admin-muted: #756d66;
+
+  --admin-accent: #ff6f5b;
+  --admin-accent-hover: #f45f4d;
+  --admin-secondary: #f49a67;
+
+  --admin-success: #287346;
+  --admin-success-bg: #eaf7ef;
+
+  --admin-warning: #b45309;
+  --admin-warning-bg: #fff7ed;
+
+  --admin-danger: #a63d32;
+  --admin-danger-bg: #fff0ee;
+
+  --admin-border: rgba(42, 35, 30, 0.1);
+  --admin-border-strong: rgba(42, 35, 30, 0.16);
+
+  --admin-shadow-sm:
+    0 6px 20px rgba(42, 35, 30, 0.04);
+
+  --admin-shadow-md:
+    0 12px 35px rgba(42, 35, 30, 0.07);
+
+  --admin-shadow-lg:
+    0 24px 70px rgba(42, 35, 30, 0.2);
+
+  --admin-radius-sm: 10px;
+  --admin-radius-md: 14px;
+  --admin-radius-lg: 18px;
+  --admin-radius-xl: 22px;
+
+  --admin-transition:
+    180ms ease;
+}
+
+/* =========================================================
+   PAGE BACKGROUND
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) {
+  background: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+body:has(input[placeholder="Search certifications"]) * {
+  box-sizing: border-box;
+}
+
+body:has(input[placeholder="Search certifications"]) {
+  scrollbar-color: #d6c8bd transparent;
+  scrollbar-width: thin;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body:has(input[placeholder="Search certifications"]) ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body:has(input[placeholder="Search certifications"]) ::-webkit-scrollbar-thumb {
+  background: #d6c8bd;
+  border-radius: 999px;
+}
+
+body:has(input[placeholder="Search certifications"]) ::-webkit-scrollbar-thumb:hover {
+  background: #bca99a;
+}
+
+/* =========================================================
+   FORM CONTROLS
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) input:not([type="checkbox"]):not([type="file"]),
+body:has(input[placeholder="Search certifications"]) textarea,
+body:has(input[placeholder="Search certifications"]) select {
+  font-family: inherit;
+  transition:
+    border-color var(--admin-transition),
+    box-shadow var(--admin-transition),
+    background-color var(--admin-transition);
+}
+
+body:has(input[placeholder="Search certifications"]) input:not([type="checkbox"]):not([type="file"]):hover,
+body:has(input[placeholder="Search certifications"]) textarea:hover,
+body:has(input[placeholder="Search certifications"]) select:hover {
+  border-color: rgba(255, 111, 91, 0.42) !important;
+}
+
+body:has(input[placeholder="Search certifications"]) input:not([type="checkbox"]):not([type="file"]):focus,
+body:has(input[placeholder="Search certifications"]) textarea:focus,
+body:has(input[placeholder="Search certifications"]) select:focus {
+  outline: none;
+  border-color: var(--admin-accent) !important;
+  box-shadow: 0 0 0 3px rgba(255, 111, 91, 0.12);
+}
+
+body:has(input[placeholder="Search certifications"]) input::placeholder,
+body:has(input[placeholder="Search certifications"]) textarea::placeholder {
+  color: #aaa099;
+  opacity: 1;
+}
+
+body:has(input[placeholder="Search certifications"]) textarea {
+  min-height: 105px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   CHECKBOXES
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--admin-accent);
+  cursor: pointer;
+}
+
+body:has(input[placeholder="Search certifications"]) input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) button {
+  font-family: inherit;
+  transition:
+    transform var(--admin-transition),
+    box-shadow var(--admin-transition),
+    background-color var(--admin-transition),
+    border-color var(--admin-transition),
+    opacity var(--admin-transition);
+}
+
+body:has(input[placeholder="Search certifications"]) button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+body:has(input[placeholder="Search certifications"]) button:not(:disabled):active {
+  transform: translateY(0);
+}
+
+body:has(input[placeholder="Search certifications"]) button:focus-visible,
+body:has(input[placeholder="Search certifications"]) a:focus-visible {
+  outline: 3px solid rgba(255, 111, 91, 0.35);
+  outline-offset: 3px;
+}
+
+body:has(input[placeholder="Search certifications"]) button:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.55;
+  transform: none !important;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) a {
+  transition:
+    color var(--admin-transition),
+    opacity var(--admin-transition);
+}
+
+body:has(input[placeholder="Search certifications"]) a:hover {
+  opacity: 0.8;
+}
+
+/* =========================================================
+   CERTIFICATION CARDS
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) h1,
+body:has(input[placeholder="Search certifications"]) h2,
+body:has(input[placeholder="Search certifications"]) h3,
+body:has(input[placeholder="Search certifications"]) h4,
+body:has(input[placeholder="Search certifications"]) p {
+  overflow-wrap: anywhere;
+}
+
+body:has(input[placeholder="Search certifications"]) h1,
+body:has(input[placeholder="Search certifications"]) h2,
+body:has(input[placeholder="Search certifications"]) h3,
+body:has(input[placeholder="Search certifications"]) h4 {
+  letter-spacing: -0.025em;
+}
+
+body:has(input[placeholder="Search certifications"]) strong {
+  font-weight: 800;
+}
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) input[type="file"] {
+  font-family: inherit;
+}
+
+body:has(input[placeholder="Search certifications"]) input[type="file"]::file-selector-button {
+  border: 1px solid var(--admin-border-strong);
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: var(--admin-surface);
+  color: var(--admin-text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) div[style*="rgba(42,35,30,0.48)"] {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+body:has(input[placeholder="Search certifications"]) div[style*="rgba(42,35,30,0.48)"] > div {
+  animation: certificationModalEnter 180ms ease-out;
+}
+
+@keyframes certificationModalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   MODAL FORM
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) form {
+  width: 100%;
+}
+
+body:has(input[placeholder="Search certifications"]) form label {
+  line-height: 1.4;
+}
+
+body:has(input[placeholder="Search certifications"]) form small {
+  line-height: 1.5;
+}
+
+/* =========================================================
+   DOCUMENT SECTION
+========================================================= */
+
+body:has(input[placeholder="Search certifications"]) iframe {
+  display: block;
+  max-width: 100%;
+  background: #ffffff;
+}
+
+body:has(input[placeholder="Search certifications"]) img {
+  border-radius: 10px;
+}
+
+body:has(input[placeholder="Search certifications"]) select {
+  cursor: pointer;
+}
+
+body:has(input[placeholder="Search certifications"]) select:disabled {
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   RESPONSIVE: LARGE TABLETS
+========================================================= */
+
+@media (max-width: 1100px) {
+  body:has(input[placeholder="Search certifications"]) div[style*="repeat(3, minmax(140px, 1fr))"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="repeat(3, minmax(140px, 1fr))"] input {
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE: TABLETS
+========================================================= */
+
+@media (max-width: 768px) {
+  body:has(input[placeholder="Search certifications"]) {
+    overflow-x: hidden;
+  }
+
+  body:has(input[placeholder="Search certifications"]) form {
+    width: 100%;
+  }
+
+  body:has(input[placeholder="Search certifications"]) form [style*="repeat(2, minmax(0, 1fr))"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="repeat(2, minmax(0, 1fr))"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="repeat(3, minmax(140px, 1fr))"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="repeat(3, minmax(140px, 1fr))"] input {
+    grid-column: auto;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="calc(100vw - 44px)"] {
+    padding: 16px !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) iframe {
+    height: 60vh !important;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE: MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  body:has(input[placeholder="Search certifications"]) {
+    font-size: 14px;
+  }
+
+  body:has(input[placeholder="Search certifications"]) h1 {
+    font-size: 28px !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) h2 {
+    font-size: 20px !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) button {
+    min-height: 40px;
+  }
+
+  body:has(input[placeholder="Search certifications"]) input:not([type="checkbox"]):not([type="file"]),
+  body:has(input[placeholder="Search certifications"]) textarea,
+  body:has(input[placeholder="Search certifications"]) select {
+    font-size: 14px !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="rgba(42,35,30,0.48)"] {
+    padding: 12px !important;
+    align-items: flex-start !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) div[style*="rgba(42,35,30,0.48)"] > div {
+    max-height: calc(100vh - 24px) !important;
+    padding: 20px !important;
+    border-radius: 16px !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) iframe {
+    height: 52vh !important;
+  }
+
+  body:has(input[placeholder="Search certifications"]) img {
+    max-height: 55vh !important;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(input[placeholder="Search certifications"]) *,
+  body:has(input[placeholder="Search certifications"]) *::before,
+  body:has(input[placeholder="Search certifications"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* =========================================================
+   GLOBAL TOAST / NOTIFICATION POSITION
+   ========================================================= */
+
+/*
+ * Keeps certification notifications fixed at the top-right.
+ * !important is used so existing inline bottom/right styles
+ * do not force the notification back to the bottom.
+ */
+
+body:has(input[placeholder="Search certifications"]) [role="alert"],
+body:has(input[placeholder="Search certifications"]) [data-toast],
+body:has(input[placeholder="Search certifications"]) [class*="toast"],
+body:has(input[placeholder="Search certifications"]) [class*="Toast"],
+body:has(input[placeholder="Search certifications"]) [class*="notification"],
+body:has(input[placeholder="Search certifications"]) [class*="Notification"] {
+  position: fixed !important;
+  top: 24px !important;
+  right: 24px !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 99999 !important;
+  max-width: min(420px, calc(100vw - 32px));
+  animation: certificationToastEnter 220ms ease-out;
+}
+
+@keyframes certificationToastEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, -8px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 520px) {
+  body:has(input[placeholder="Search certifications"]) [role="alert"],
+  body:has(input[placeholder="Search certifications"]) [data-toast],
+  body:has(input[placeholder="Search certifications"]) [class*="toast"],
+  body:has(input[placeholder="Search certifications"]) [class*="Toast"],
+  body:has(input[placeholder="Search certifications"]) [class*="notification"],
+  body:has(input[placeholder="Search certifications"]) [class*="Notification"] {
+    top: 12px !important;
+    right: 12px !important;
+    left: 12px !important;
+    max-width: none;
+  }
+}

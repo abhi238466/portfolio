@@ -1,0 +1,1109 @@
+/* =========================================================
+   NAVBAR
+   Premium Responsive Portfolio Navigation
+   Light Default + Dark Toggle
+   ========================================================= */
+
+.navbar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 1000;
+
+  padding: 18px 24px;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   NAVBAR CONTAINER
+   ========================================================= */
+
+.navbar-container {
+  width: min(100%, 1240px);
+
+  min-height: 68px;
+
+  margin: 0 auto;
+
+  padding:
+    0 10px 0 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 18px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-surface) 88%,
+      transparent
+    );
+
+  box-shadow:
+    0 18px 45px
+    var(--app-shadow),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  pointer-events: auto;
+
+  transition:
+    background 350ms ease,
+    border-color 350ms ease,
+    box-shadow 350ms ease;
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.navbar-brand {
+  flex-shrink: 0;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 7px 8px;
+
+  border: 0;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: var(--app-text);
+
+  text-align: left;
+
+  transition:
+    background 220ms ease,
+    transform 220ms ease;
+}
+
+.navbar-brand:hover {
+  background:
+    color-mix(
+      in srgb,
+      var(--app-coral) 5%,
+      transparent
+    );
+}
+
+.navbar-brand:active {
+  transform: scale(0.98);
+}
+
+/* =========================================================
+   BRAND MARK
+   ========================================================= */
+
+.navbar-brand-mark {
+  position: relative;
+
+  width: 39px;
+  height: 39px;
+
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--app-coral) 35%,
+      var(--app-border)
+    );
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(
+        in srgb,
+        var(--app-coral) 11%,
+        var(--app-surface)
+      ),
+      color-mix(
+        in srgb,
+        var(--app-peach) 6%,
+        var(--app-surface)
+      )
+    );
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.08),
+
+    0 7px 22px
+    color-mix(
+      in srgb,
+      var(--app-coral) 7%,
+      transparent
+    );
+}
+
+.navbar-brand-mark::before {
+  content: "";
+
+  position: absolute;
+
+  width: 24px;
+  height: 24px;
+
+  top: -10px;
+  right: -10px;
+
+  border-radius: 50%;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-coral) 18%,
+      transparent
+    );
+
+  filter: blur(7px);
+}
+
+.navbar-brand-letter {
+  position: relative;
+
+  z-index: 1;
+
+  color:
+    var(--app-coral-soft);
+
+  font-size: 16px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.03em;
+}
+
+/* =========================================================
+   BRAND TEXT
+   ========================================================= */
+
+.navbar-brand-content {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1px;
+}
+
+.navbar-brand-name {
+  color: var(--app-text);
+
+  font-size: 14px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.01em;
+}
+
+.navbar-brand-role {
+  color: var(--app-text-muted);
+
+  font-size: 10px;
+
+  line-height: 1.2;
+
+  font-weight: 600;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   DESKTOP NAVIGATION
+   ========================================================= */
+
+.navbar-navigation {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 3px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navbar-nav-link {
+  position: relative;
+
+  min-height: 42px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0 12px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: var(--app-text-muted);
+
+  font-size: 13px;
+
+  font-weight: 550;
+
+  white-space: nowrap;
+
+  transition:
+    color 220ms ease,
+    background 220ms ease;
+}
+
+.navbar-nav-link:hover {
+  color: var(--app-text);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-text) 4%,
+      transparent
+    );
+}
+
+.navbar-nav-link.is-active {
+  color: var(--app-text);
+}
+
+.navbar-active-indicator {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 5px;
+
+  width: 5px;
+  height: 5px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    var(--app-coral);
+
+  box-shadow:
+    0 0 8px
+    color-mix(
+      in srgb,
+      var(--app-coral) 70%,
+      transparent
+    );
+}
+
+/* =========================================================
+   DESKTOP ACTIONS
+   ========================================================= */
+
+.navbar-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   THEME BUTTON
+   ========================================================= */
+
+.navbar-icon-button {
+  width: 41px;
+  height: 41px;
+
+  display: grid;
+
+  place-items: center;
+
+  padding: 0;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 11px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-surface) 70%,
+      transparent
+    );
+
+  color: var(--app-text-muted);
+
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.navbar-icon-button:hover {
+  color: var(--app-text);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-coral) 7%,
+      var(--app-surface)
+    );
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--app-coral) 28%,
+      var(--app-border)
+    );
+
+  transform: translateY(-1px);
+}
+
+.navbar-icon-button:active {
+  transform: scale(0.96);
+}
+
+.navbar-icon-wrapper {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   ADMIN BUTTON
+   ========================================================= */
+
+.navbar-admin-button {
+  min-height: 41px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 15px;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--app-coral) 28%,
+      var(--app-border)
+    );
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(
+        in srgb,
+        var(--app-coral) 9%,
+        var(--app-surface)
+      ),
+      color-mix(
+        in srgb,
+        var(--app-peach) 4%,
+        var(--app-surface)
+      )
+    );
+
+  color: var(--app-text-soft);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  box-shadow:
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.055);
+
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.navbar-admin-button svg {
+  color: var(--app-coral);
+
+  flex-shrink: 0;
+}
+
+.navbar-admin-button:hover {
+  transform: translateY(-2px);
+
+  color: var(--app-text);
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--app-coral) 45%,
+      var(--app-border)
+    );
+
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(
+        in srgb,
+        var(--app-coral) 14%,
+        var(--app-surface)
+      ),
+      color-mix(
+        in srgb,
+        var(--app-peach) 7%,
+        var(--app-surface)
+      )
+    );
+
+  box-shadow:
+    0 9px 24px
+    color-mix(
+      in srgb,
+      var(--app-coral) 10%,
+      transparent
+    ),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.07);
+}
+
+.navbar-admin-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* =========================================================
+   MOBILE TOGGLE
+   ========================================================= */
+
+.navbar-mobile-toggle {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 11px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-surface) 72%,
+      transparent
+    );
+
+  color: var(--app-text-soft);
+
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease,
+    color 220ms ease;
+}
+
+.navbar-mobile-toggle:hover {
+  color: var(--app-text);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-coral) 7%,
+      var(--app-surface)
+    );
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--app-coral) 25%,
+      var(--app-border)
+    );
+}
+
+.navbar-mobile-toggle:active {
+  transform: scale(0.94);
+}
+
+/* =========================================================
+   MOBILE BACKDROP
+   ========================================================= */
+
+.navbar-mobile-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 990;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-bg-deep) 68%,
+      transparent
+    );
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* =========================================================
+   MOBILE PANEL
+   ========================================================= */
+
+.navbar-mobile-panel {
+  position: fixed;
+
+  top: 96px;
+
+  left: 16px;
+  right: 16px;
+
+  z-index: 995;
+
+  max-height:
+    calc(100vh - 112px);
+
+  overflow-y: auto;
+
+  padding: 18px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 20px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-surface) 96%,
+      transparent
+    );
+
+  box-shadow:
+    0 28px 70px
+    var(--app-shadow),
+
+    inset 0 1px 0
+    rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  scrollbar-width: thin;
+}
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+.navbar-mobile-navigation {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.navbar-mobile-link {
+  width: 100%;
+
+  min-height: 58px;
+
+  display: grid;
+
+  grid-template-columns:
+    38px 1fr auto;
+
+  align-items: center;
+
+  padding: 0 14px;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 13px;
+
+  background: transparent;
+
+  color: var(--app-text-muted);
+
+  text-align: left;
+
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.navbar-mobile-link:hover {
+  color: var(--app-text);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-text) 4%,
+      transparent
+    );
+
+  border-color:
+    var(--app-border-soft);
+}
+
+.navbar-mobile-link.is-active {
+  color: var(--app-text);
+
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(
+        in srgb,
+        var(--app-coral) 9%,
+        transparent
+      ),
+      transparent
+    );
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--app-coral) 13%,
+      transparent
+    );
+}
+
+.navbar-mobile-link-number {
+  color:
+    color-mix(
+      in srgb,
+      var(--app-text-muted) 48%,
+      transparent
+    );
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.05em;
+}
+
+.navbar-mobile-link.is-active
+  .navbar-mobile-link-number {
+  color: var(--app-coral);
+}
+
+.navbar-mobile-link-label {
+  font-size: 15px;
+
+  font-weight: 600;
+}
+
+.navbar-mobile-link-arrow {
+  color:
+    color-mix(
+      in srgb,
+      var(--app-text-muted) 45%,
+      transparent
+    );
+
+  font-size: 17px;
+
+  transition:
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.navbar-mobile-link:hover
+  .navbar-mobile-link-arrow {
+  color: var(--app-coral);
+
+  transform:
+    translate(2px, -2px);
+}
+
+/* =========================================================
+   MOBILE DIVIDER
+   ========================================================= */
+
+.navbar-mobile-divider {
+  height: 1px;
+
+  margin:
+    15px 2px;
+
+  background:
+    var(--app-border-soft);
+}
+
+/* =========================================================
+   MOBILE FOOTER
+   ========================================================= */
+
+.navbar-mobile-footer {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 8px;
+}
+
+/* =========================================================
+   MOBILE THEME BUTTON
+   ========================================================= */
+
+.navbar-mobile-theme-button {
+  min-height: 45px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border:
+    1px solid
+    var(--app-border);
+
+  border-radius: 11px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-surface) 70%,
+      transparent
+    );
+
+  color: var(--app-text-muted);
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.navbar-mobile-theme-button:hover {
+  color: var(--app-text);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--app-coral) 6%,
+      var(--app-surface)
+    );
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--app-coral) 23%,
+      var(--app-border)
+    );
+}
+
+/* =========================================================
+   MOBILE ADMIN
+   ========================================================= */
+
+.navbar-mobile-admin-button {
+  min-height: 45px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--app-coral) 27%,
+      var(--app-border)
+    );
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(
+        in srgb,
+        var(--app-coral) 9%,
+        var(--app-surface)
+      ),
+      color-mix(
+        in srgb,
+        var(--app-peach) 4%,
+        var(--app-surface)
+      )
+    );
+
+  color: var(--app-text-soft);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.navbar-mobile-admin-button svg {
+  color: var(--app-coral);
+}
+
+.navbar-mobile-admin-button:hover {
+  transform: translateY(-1px);
+
+  color: var(--app-text);
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--app-coral) 42%,
+      var(--app-border)
+    );
+}
+
+/* =========================================================
+   LARGE DESKTOP
+   ========================================================= */
+
+@media (min-width: 1440px) {
+  .navbar {
+    padding-top: 22px;
+  }
+
+  .navbar-container {
+    min-height: 72px;
+
+    padding-left: 20px;
+    padding-right: 12px;
+
+    border-radius: 20px;
+  }
+
+  .navbar-nav-link {
+    padding: 0 14px;
+
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .navbar {
+    padding:
+      14px 18px;
+  }
+
+  .navbar-container {
+    min-height: 64px;
+
+    padding-left: 14px;
+    padding-right: 8px;
+  }
+
+  .navbar-navigation {
+    gap: 0;
+  }
+
+  .navbar-nav-link {
+    padding: 0 8px;
+
+    font-size: 12px;
+  }
+
+  .navbar-admin-button {
+    padding: 0 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+  .navbar {
+    padding:
+      12px 14px;
+  }
+
+  .navbar-container {
+    min-height: 62px;
+
+    padding-left: 10px;
+    padding-right: 8px;
+
+    border-radius: 16px;
+  }
+
+  .navbar-navigation,
+  .navbar-actions {
+    display: none;
+  }
+
+  .navbar-mobile-toggle {
+    display: inline-flex;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .navbar {
+    padding: 10px;
+  }
+
+  .navbar-container {
+    min-height: 58px;
+
+    border-radius: 15px;
+  }
+
+  .navbar-brand {
+    gap: 9px;
+  }
+
+  .navbar-brand-mark {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 10px;
+  }
+
+  .navbar-brand-letter {
+    font-size: 15px;
+  }
+
+  .navbar-brand-name {
+    font-size: 13px;
+  }
+
+  .navbar-brand-role {
+    font-size: 9px;
+  }
+
+  .navbar-mobile-toggle {
+    width: 39px;
+    height: 39px;
+  }
+
+  .navbar-mobile-panel {
+    top: 80px;
+
+    left: 10px;
+    right: 10px;
+
+    padding: 14px;
+
+    border-radius: 17px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-brand,
+  .navbar-nav-link,
+  .navbar-icon-button,
+  .navbar-admin-button,
+  .navbar-mobile-toggle,
+  .navbar-mobile-link,
+  .navbar-mobile-theme-button,
+  .navbar-mobile-admin-button {
+    transition: none;
+  }
+}

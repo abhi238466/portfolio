@@ -1,0 +1,1055 @@
+/*
+|--------------------------------------------------------------------------
+| ADMIN EDUCATION CMS
+|--------------------------------------------------------------------------
+| Premium Admin Theme
+|
+| IMPORTANT:
+| - AdminEducation.jsx functionality remains untouched.
+| - This file only controls visual styling.
+| - Theme matches Admin Dashboard / Hero / Profile / Projects / Experience.
+| - Primary actions use Coral / Orange.
+| - No primary button should turn white on hover.
+|--------------------------------------------------------------------------
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN THEME
+|--------------------------------------------------------------------------
+*/
+
+:root {
+  --admin-bg: #f5f1eb;
+  --admin-surface: #fffdfa;
+  --admin-surface-soft: #faf7f2;
+
+  --admin-text: #211e1c;
+  --admin-muted: #756d66;
+  --admin-muted-light: #9a9189;
+
+  --admin-accent: #ff6f5b;
+  --admin-accent-hover: #f45f4d;
+  --admin-accent-soft: #fff0ee;
+  --admin-accent-border: #ffc9c1;
+
+  --admin-secondary: #f49a67;
+  --admin-secondary-soft: #fff5e8;
+
+  --admin-success: #58a77a;
+  --admin-success-soft: #eaf7ef;
+
+  --admin-warning: #8a5b16;
+  --admin-warning-soft: #fff4df;
+
+  --admin-danger: #a63d32;
+  --admin-danger-hover: #94352b;
+  --admin-danger-soft: #fff0ee;
+  --admin-danger-border: #f2c1ba;
+
+  --admin-border: rgba(42, 35, 30, 0.09);
+  --admin-border-strong: rgba(42, 35, 30, 0.13);
+
+  --admin-shadow:
+    0 10px 30px rgba(42, 35, 30, 0.045);
+
+  --admin-shadow-hover:
+    0 18px 42px rgba(42, 35, 30, 0.09);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GLOBAL SAFETY
+|--------------------------------------------------------------------------
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EDUCATION PAGE SCOPE
+|--------------------------------------------------------------------------
+| Search input makes this page uniquely identifiable.
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"]) {
+  background: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PAGE BACKGROUND
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="min-height: 100vh"] {
+  background: var(--admin-bg) !important;
+  color: var(--admin-text) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MAIN PAGE TEXT
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"]) h1,
+body:has(input[placeholder*="Search education"]) h2,
+body:has(input[placeholder*="Search education"]) h3,
+body:has(input[placeholder*="Search education"]) h4 {
+  color: var(--admin-text) !important;
+}
+
+body:has(input[placeholder*="Search education"]) p {
+  color: var(--admin-muted);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EDUCATION HEADER ICON
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="width: 46px"][style*="height: 46px"] {
+  background:
+    linear-gradient(
+      135deg,
+      var(--admin-accent),
+      var(--admin-secondary)
+    ) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 10px 24px rgba(255, 111, 91, 0.20) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| BACK TO DASHBOARD
+|--------------------------------------------------------------------------
+| The existing JSX button is kept.
+| This makes it a proper Admin-style button.
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="transparent"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-height: 42px !important;
+  padding: 10px 16px !important;
+
+  margin: 0 0 16px !important;
+
+  border:
+    1px solid var(--admin-border-strong) !important;
+
+  border-radius: 12px !important;
+
+  background:
+    var(--admin-surface) !important;
+
+  color:
+    var(--admin-text) !important;
+
+  font-size: 13px !important;
+  font-weight: 800 !important;
+
+  cursor: pointer !important;
+
+  box-shadow:
+    0 7px 20px rgba(42, 35, 30, 0.045) !important;
+
+  transition:
+    all 180ms ease !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="transparent"]:hover {
+  background:
+    var(--admin-accent-soft) !important;
+
+  border-color:
+    var(--admin-accent-border) !important;
+
+  color:
+    var(--admin-accent) !important;
+
+  transform:
+    translateY(-1px) !important;
+
+  box-shadow:
+    0 10px 24px rgba(255, 111, 91, 0.10) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="transparent"]:active {
+  transform:
+    translateY(0) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PRIMARY DARK BUTTONS → CORAL
+|--------------------------------------------------------------------------
+| React may render inline colors as HEX OR RGB.
+| Both forms are handled.
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#111827"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(17, 24, 39)"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(15, 23, 42)"] {
+  background:
+    linear-gradient(
+      135deg,
+      var(--admin-accent),
+      var(--admin-secondary)
+    ) !important;
+
+  border-color:
+    var(--admin-accent) !important;
+
+  color:
+    #ffffff !important;
+
+  box-shadow:
+    0 10px 25px rgba(255, 111, 91, 0.20) !important;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PRIMARY DARK BUTTON HOVER
+|--------------------------------------------------------------------------
+| KEEP CORAL — NEVER WHITE.
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#111827"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(17, 24, 39)"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(15, 23, 42)"]:hover {
+  background:
+    linear-gradient(
+      135deg,
+      var(--admin-accent-hover),
+      var(--admin-secondary)
+    ) !important;
+
+  border-color:
+    var(--admin-accent-hover) !important;
+
+  color:
+    #ffffff !important;
+
+  transform:
+    translateY(-1px) !important;
+
+  box-shadow:
+    0 15px 32px rgba(255, 111, 91, 0.25) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#111827"]:active,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(17, 24, 39)"]:active,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(15, 23, 42)"]:active {
+  transform:
+    translateY(0) !important;
+
+  box-shadow:
+    0 8px 18px rgba(255, 111, 91, 0.18) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PRIMARY BUTTON CHILDREN
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#111827"] *,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(17, 24, 39)"] *,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(15, 23, 42)"] * {
+  color: #ffffff !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ALL GENERAL BUTTON INTERACTION
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button:not(:disabled) {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button:disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| FILTER / SEARCH PANEL
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15,23,42,0.05)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15, 23, 42, 0.05)"] {
+  background:
+    var(--admin-surface) !important;
+
+  border-color:
+    var(--admin-border) !important;
+
+  box-shadow:
+    var(--admin-shadow) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ALL FORM CONTROLS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+body:has(input[placeholder*="Search education"])
+  select,
+body:has(input[placeholder*="Search education"])
+  textarea {
+  background:
+    var(--admin-surface) !important;
+
+  color:
+    var(--admin-text) !important;
+
+  border-color:
+    var(--admin-border-strong) !important;
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  input::placeholder,
+body:has(input[placeholder*="Search education"])
+  textarea::placeholder {
+  color:
+    var(--admin-muted-light) !important;
+
+  opacity:
+    1 !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  input:not([type="checkbox"]):focus,
+body:has(input[placeholder*="Search education"])
+  select:focus,
+body:has(input[placeholder*="Search education"])
+  textarea:focus {
+  outline:
+    none !important;
+
+  border-color:
+    rgba(255, 111, 91, 0.55) !important;
+
+  box-shadow:
+    0 0 0 4px rgba(255, 111, 91, 0.09) !important;
+
+  background:
+    #fffefa !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CHECKBOX
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+
+  min-width: 16px;
+  min-height: 16px;
+
+  margin: 0;
+
+  accent-color:
+    var(--admin-accent) !important;
+
+  cursor: pointer;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| FILE INPUT
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  input[type="file"] {
+  display: none !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EDUCATION CARDS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15,23,42,0.045)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15, 23, 42, 0.045)"] {
+  background:
+    var(--admin-surface) !important;
+
+  border-color:
+    var(--admin-border) !important;
+
+  box-shadow:
+    var(--admin-shadow) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15,23,42,0.045)"]:hover,
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15, 23, 42, 0.045)"]:hover {
+  border-color:
+    rgba(255, 111, 91, 0.18) !important;
+
+  box-shadow:
+    var(--admin-shadow-hover) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GENERAL WHITE CARDS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="background: #ffffff"],
+body:has(input[placeholder*="Search education"])
+  div[style*="background:#ffffff"],
+body:has(input[placeholder*="Search education"])
+  div[style*="background: rgb(255, 255, 255)"] {
+  background:
+    var(--admin-surface) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIGHT GREY INNER AREAS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="#f8fafc"],
+body:has(input[placeholder*="Search education"])
+  div[style*="#fafbfc"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgb(248, 250, 252)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgb(250, 251, 252)"] {
+  background:
+    var(--admin-surface-soft) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| COMMON BORDERS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="#e5e7eb"],
+body:has(input[placeholder*="Search education"])
+  div[style*="#e2e8f0"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgb(229, 231, 235)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgb(226, 232, 240)"] {
+  border-color:
+    var(--admin-border) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SECONDARY WHITE BUTTONS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="background: #ffffff"],
+body:has(input[placeholder*="Search education"])
+  button[style*="background:#ffffff"],
+body:has(input[placeholder*="Search education"])
+  button[style*="background: rgb(255, 255, 255)"] {
+  background:
+    var(--admin-surface) !important;
+
+  border-color:
+    var(--admin-border-strong) !important;
+
+  color:
+    var(--admin-text) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="background: #ffffff"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="background:#ffffff"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="background: rgb(255, 255, 255)"]:hover {
+  background:
+    var(--admin-accent-soft) !important;
+
+  border-color:
+    var(--admin-accent-border) !important;
+
+  color:
+    var(--admin-accent) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GREEN / SUCCESS CONTROLS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#ecfdf5"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(236, 253, 245)"] {
+  background:
+    var(--admin-success-soft) !important;
+
+  border-color:
+    rgba(88, 167, 122, 0.18) !important;
+
+  color:
+    var(--admin-success) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#ecfdf5"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(236, 253, 245)"]:hover {
+  background:
+    #def2e6 !important;
+
+  border-color:
+    rgba(88, 167, 122, 0.28) !important;
+
+  color:
+    #478c65 !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ORANGE / FEATURED CONTROLS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#fff7ed"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(255, 247, 237)"] {
+  background:
+    var(--admin-secondary-soft) !important;
+
+  border-color:
+    rgba(244, 154, 103, 0.18) !important;
+
+  color:
+    var(--admin-secondary) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#fff7ed"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(255, 247, 237)"]:hover {
+  background:
+    #ffeedb !important;
+
+  border-color:
+    rgba(244, 154, 103, 0.28) !important;
+
+  color:
+    #df804c !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DANGER / DELETE
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#fecdd3"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(254, 205, 211)"] {
+  background:
+    var(--admin-danger-soft) !important;
+
+  border-color:
+    var(--admin-danger-border) !important;
+
+  color:
+    var(--admin-danger) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#fecdd3"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(254, 205, 211)"]:hover {
+  background:
+    #ffe5e1 !important;
+
+  border-color:
+    #e9aaa1 !important;
+
+  color:
+    var(--admin-danger) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DANGER CONFIRM BUTTON
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#be123c"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(190, 18, 60)"] {
+  background:
+    var(--admin-danger) !important;
+
+  border-color:
+    var(--admin-danger) !important;
+
+  color:
+    #ffffff !important;
+
+  box-shadow:
+    0 10px 24px rgba(166, 61, 50, 0.16) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#be123c"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(190, 18, 60)"]:hover {
+  background:
+    var(--admin-danger-hover) !important;
+
+  border-color:
+    var(--admin-danger-hover) !important;
+
+  color:
+    #ffffff !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| BADGES
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  span[style*="#eef2ff"],
+body:has(input[placeholder*="Search education"])
+  span[style*="rgb(238, 242, 255)"] {
+  background:
+    var(--admin-accent-soft) !important;
+
+  border-color:
+    var(--admin-accent-border) !important;
+
+  color:
+    var(--admin-accent) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  span[style*="#ecfdf5"],
+body:has(input[placeholder*="Search education"])
+  span[style*="rgb(236, 253, 245)"] {
+  background:
+    var(--admin-success-soft) !important;
+
+  color:
+    var(--admin-success) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  span[style*="#fff7ed"],
+body:has(input[placeholder*="Search education"])
+  span[style*="rgb(255, 247, 237)"] {
+  background:
+    var(--admin-secondary-soft) !important;
+
+  color:
+    var(--admin-secondary) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MODAL OVERLAY
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15,23,42,0.48)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15, 23, 42, 0.48)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15,23,42,0.52)"],
+body:has(input[placeholder*="Search education"])
+  div[style*="rgba(15, 23, 42, 0.52)"] {
+  background:
+    rgba(42, 35, 30, 0.48) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MODAL
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="border-radius: 18px"],
+body:has(input[placeholder*="Search education"])
+  div[style*="border-radius: 20px"] {
+  border-color:
+    var(--admin-border) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MODAL CLOSE / LIGHT BUTTON
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#f1f5f9"],
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(241, 245, 249)"] {
+  background:
+    var(--admin-surface-soft) !important;
+
+  border-color:
+    var(--admin-border) !important;
+
+  color:
+    var(--admin-text) !important;
+}
+
+body:has(input[placeholder*="Search education"])
+  button[style*="#f1f5f9"]:hover,
+body:has(input[placeholder*="Search education"])
+  button[style*="rgb(241, 245, 249)"]:hover {
+  background:
+    var(--admin-accent-soft) !important;
+
+  border-color:
+    var(--admin-accent-border) !important;
+
+  color:
+    var(--admin-accent) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT AREA
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  img[alt*="Education document"] {
+  display: block;
+
+  width: auto !important;
+  height: auto !important;
+
+  max-width: 100% !important;
+  max-height: 70vh !important;
+
+  object-fit: contain !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT DROP AREA
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  div[style*="1px dashed"] {
+  border-color:
+    rgba(42, 35, 30, 0.16) !important;
+
+  background:
+    var(--admin-surface-soft) !important;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LINKS
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  a {
+  color:
+    var(--admin-accent);
+}
+
+body:has(input[placeholder*="Search education"])
+  a:hover {
+  color:
+    var(--admin-accent-hover);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SCROLLBAR
+|--------------------------------------------------------------------------
+*/
+
+body:has(input[placeholder*="Search education"])
+  * {
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(42, 35, 30, 0.18)
+    transparent;
+}
+
+body:has(input[placeholder*="Search education"])
+  *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body:has(input[placeholder*="Search education"])
+  *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body:has(input[placeholder*="Search education"])
+  *::-webkit-scrollbar-thumb {
+  background:
+    rgba(42, 35, 30, 0.18);
+
+  border-radius: 999px;
+}
+
+body:has(input[placeholder*="Search education"])
+  *::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(42, 35, 30, 0.28);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE — TABLET
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1100px) {
+  body:has(input[placeholder*="Search education"])
+    div[style*="grid-template-columns"] {
+    max-width: 100%;
+  }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE — MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 768px) {
+  body:has(input[placeholder*="Search education"])
+    div[style*="min-height: 100vh"] {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  body:has(input[placeholder*="Search education"])
+    h1 {
+    font-size: 28px !important;
+  }
+
+  body:has(input[placeholder*="Search education"])
+    button[style*="#111827"],
+  body:has(input[placeholder*="Search education"])
+    button[style*="rgb(17, 24, 39)"],
+  body:has(input[placeholder*="Search education"])
+    button[style*="rgb(15, 23, 42)"] {
+    min-height: 42px !important;
+  }
+
+  body:has(input[placeholder*="Search education"])
+    input,
+  body:has(input[placeholder*="Search education"])
+    select,
+  body:has(input[placeholder*="Search education"])
+    textarea {
+    max-width: 100% !important;
+  }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE — SMALL MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 520px) {
+  body:has(input[placeholder*="Search education"])
+    div[style*="min-height: 100vh"] {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  body:has(input[placeholder*="Search education"])
+    h1 {
+    font-size: 24px !important;
+  }
+
+  body:has(input[placeholder*="Search education"])
+    button[style*="#111827"],
+  body:has(input[placeholder*="Search education"])
+    button[style*="rgb(17, 24, 39)"],
+  body:has(input[placeholder*="Search education"])
+    button[style*="rgb(15, 23, 42)"] {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  body:has(input[placeholder*="Search education"])
+    button[style*="transparent"] {
+    width: 100% !important;
+  }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ACCESSIBILITY
+|--------------------------------------------------------------------------
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(input[placeholder*="Search education"])
+    * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
