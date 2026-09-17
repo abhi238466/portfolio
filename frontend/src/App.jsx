@@ -135,82 +135,192 @@ const API_BASE_URL =
    PUBLIC PORTFOLIO DATA
    =========================================================
 
-   Actual portfolio content will come from the API later.
+   Portfolio content is loaded from the public backend APIs.
 
    Nothing personal is hardcoded here.
    ========================================================= */
-
-const publicPortfolioData = {
-  profile: {},
-  hero: {},
-  socialLinks: {},
-};
 
 /* =========================================================
    PUBLIC NAVIGATION
    ========================================================= */
 
 const publicNavigationItems = [
-  {
-    id: "home",
-    label: "Home",
-    href: "#home",
-  },
-  {
-    id: "about",
-    label: "About",
-    href: "#about",
-  },
-  {
-    id: "skills",
-    label: "Skills",
-    href: "#skills",
-  },
-  {
-    id: "projects",
-    label: "Projects",
-    href: "#projects",
-  },
-  {
-    id: "experience",
-    label: "Experience",
-    href: "#experience",
-  },
-  {
-    id: "education",
-    label: "Education",
-    href: "#education",
-  },
-  {
-    id: "contact",
-    label: "Contact",
-    href: "#contact",
-  },
+  { id: "home", label: "Home", href: "#home" },
+  { id: "about", label: "About", href: "#about" },
+  { id: "skills", label: "Skills", href: "#skills" },
+  { id: "projects", label: "Projects", href: "#projects" },
+  { id: "experience", label: "Experience", href: "#experience" },
+  { id: "education", label: "Education", href: "#education" },
+  { id: "certifications", label: "Certifications", href: "#certifications" },
+  { id: "contact", label: "Contact", href: "#contact" },
 ];
 
-/* =========================================================
-   PUBLIC PORTFOLIO
-   ========================================================= */
-
 function PublicPortfolio() {
+  const [portfolioData, setPortfolioData] = useState({
+    profile: {},
+    hero: {},
+    projects: [],
+    experiences: [],
+    education: [],
+    certifications: [],
+    socialLinks: {},
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPortfolioData = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const endpoints = [
+          "/api/profile",
+          "/api/hero",
+          "/api/projects",
+          "/api/experience",
+          "/api/education",
+          "/api/certifications",
+        ];
+
+        const responses = await Promise.all(
+          endpoints.map((endpoint) =>
+            fetch(`${API_BASE_URL}${endpoint}`)
+          )
+        );
+
+        if (responses.some((response) => !response.ok)) {
+          throw new Error(
+            "Unable to load portfolio data."
+          );
+        }
+
+        const [
+          profileData,
+          heroData,
+          projectsData,
+          experienceData,
+          educationData,
+          certificationsData,
+        ] = await Promise.all(
+          responses.map((response) =>
+            response.json()
+          )
+        );
+
+        const profile = profileData?.profile || {};
+        const hero = heroData?.hero || {};
+
+        const socialLinks = {};
+
+        (profile.links || []).forEach((link) => {
+          if (link.visible && link.type) {
+            socialLinks[link.type] = link.url;
+          }
+        });
+
+        if (isMounted) {
+          setPortfolioData({
+            profile: {
+              ...profile,
+              primaryRole: profile.headline || "",
+              photoUrl:
+                profile.profilePhoto?.visible !== false
+                  ? profile.profilePhoto?.url || ""
+                  : "",
+            },
+
+            hero: {
+              ...hero,
+              introduction: hero.description || "",
+              roles: (hero.animatedTitles || [])
+                .sort(
+                  (a, b) =>
+                    a.displayOrder - b.displayOrder
+                )
+                .filter((item) => item.visible !== false)
+                .map((item) => item.text),
+            },
+
+            projects: projectsData?.projects || [],
+            experiences:
+              experienceData?.experiences || [],
+            education:
+              educationData?.education || [],
+            certifications:
+              certificationsData?.certifications || [],
+
+            socialLinks,
+          });
+        }
+      } catch (fetchError) {
+        console.error(
+          "Portfolio data loading failed:",
+          fetchError
+        );
+
+        if (isMounted) {
+          setError(
+            "Unable to load portfolio data."
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchPortfolioData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="public-data-loading">
+        Loading portfolio...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="public-data-error">
+        {error}
+      </div>
+    );
+  }
+
   const {
     profile,
     hero,
+    projects,
+    experiences,
+    education,
+    certifications,
     socialLinks,
-  } = publicPortfolioData;
+  } = portfolioData;
 
   return (
     <div className="app-shell">
       <Navbar
-        navigationItems={
-          publicNavigationItems
-        }
+        navigationItems={publicNavigationItems}
       />
 
       <main className="app-page-transition">
         <PublicHome
           profile={profile}
           hero={hero}
+          projects={projects}
+          experiences={experiences}
+          education={education}
+          certifications={certifications}
           socialLinks={socialLinks}
         />
       </main>
