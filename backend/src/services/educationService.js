@@ -945,6 +945,9 @@ const serializeDocumentForPublic = (
         ? document._id.toString()
         : document.id || null,
 
+    url:
+      document.url || "",
+
     originalName:
       document.originalName || "",
 

@@ -826,8 +826,7 @@ const normalizeExperiencePayload = (
 | PUBLIC SANITIZATION
 |--------------------------------------------------------------------------
 |
-| Sensitive Cloudinary document URLs are intentionally not returned
-| directly to the public portfolio.
+| Public response includes the already-generated document URL.
 |
 */
 
@@ -897,11 +896,6 @@ const sanitizeExperienceForPublic = (
     |--------------------------------------------------------------------------
     | DOCUMENT METADATA
     |--------------------------------------------------------------------------
-    |
-    | Public API does not expose permanent Cloudinary document URLs.
-    | Secure document delivery should be handled by a protected
-    | backend endpoint when required.
-    |
     */
 
     documents:
@@ -912,6 +906,9 @@ const sanitizeExperienceForPublic = (
             (document) => ({
               id:
                 document._id,
+
+              url:
+                document.url,
 
               originalName:
                 document.originalName,

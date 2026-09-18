@@ -132,6 +132,57 @@ const resumeSchema = new mongoose.Schema(
       default: "",
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | CLOUDINARY RESOURCE TYPE
+    |--------------------------------------------------------------------------
+    |
+    | Example:
+    | - raw
+    | - image
+    | - video
+    |
+    */
+
+    resourceType: {
+      type: String,
+      trim: true,
+      default: "raw",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLOUDINARY DELIVERY TYPE
+    |--------------------------------------------------------------------------
+    |
+    | Example:
+    | - upload
+    | - authenticated
+    |
+    */
+
+    deliveryType: {
+      type: String,
+      trim: true,
+      default: "authenticated",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLOUDINARY FILE FORMAT
+    |--------------------------------------------------------------------------
+    |
+    | Stored only when available.
+    | Empty string prevents forcing a format in signed URLs.
+    |
+    */
+
+    format: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
     originalName: {
       type: String,
       trim: true,

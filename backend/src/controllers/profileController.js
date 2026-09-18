@@ -1,4 +1,5 @@
 const profileService = require("../services/profileService");
+const axios = require("axios");
 
 const {
   uploadProfilePhoto,
@@ -1056,11 +1057,18 @@ const uploadProfileResume =
        */
 
       const resumeData = {
-        url:
-          uploadedResume.url,
+        url: uploadedResume.url,
 
-        publicId:
-          uploadedResume.publicId,
+        publicId: uploadedResume.publicId,
+
+        resourceType:
+          uploadedResume.resourceType || "raw",
+
+        deliveryType:
+          uploadedResume.deliveryType || "authenticated",
+
+        format:
+          uploadedResume.format || "",
 
         originalName:
           uploadedResume.originalName,
@@ -1072,8 +1080,7 @@ const uploadProfileResume =
           uploadedResume.size,
 
         visible:
-          existingProfile.resume
-            ?.visible !== false,
+          existingProfile.resume?.visible !== false,
       };
 
       const profile =
@@ -1092,8 +1099,8 @@ const uploadProfileResume =
       ) {
         try {
           await deleteResume(
-            existingProfile.resume
-              .publicId
+            existingProfile.resume.publicId,
+            existingProfile.resume.resourceType || "raw"
           );
         } catch (deleteError) {
           console.error(
@@ -1125,7 +1132,8 @@ const uploadProfileResume =
       ) {
         try {
           await deleteResume(
-            uploadedResume.publicId
+            uploadedResume.publicId,
+            uploadedResume.resourceType || "raw"
           );
         } catch (cleanupError) {
           console.error(
@@ -1194,7 +1202,8 @@ const removeResume =
       if (oldPublicId) {
         try {
           await deleteResume(
-            oldPublicId
+            oldPublicId,
+            existingProfile.resume.resourceType || "raw"
           );
         } catch (deleteError) {
           console.error(
@@ -1399,15 +1408,27 @@ const getAdminResume =
         });
       }
 
-      const signedUrl =
-        generateSignedResumeUrl(
-          profile.resume.publicId
-        );
-
-      return res.redirect(
-        302,
-        signedUrl
+      const signedUrl = generateSignedResumeUrl(
+        profile.resume.publicId
       );
+
+      const response = await axios.get(signedUrl, {
+        responseType: "stream",
+      });
+
+      res.setHeader(
+        "Content-Type",
+        profile.resume.mimeType || "application/pdf"
+      );
+
+      res.setHeader(
+        "Content-Disposition",
+        'inline; filename="resume.pdf"'
+      );
+
+      res.setHeader("Cache-Control", "private, no-store");
+
+      return response.data.pipe(res);
     } catch (error) {
       console.error(
         "Get admin resume error:",
@@ -1479,15 +1500,27 @@ const getPublicResume =
         });
       }
 
-      const signedUrl =
-        generateSignedResumeUrl(
-          profile.resume.publicId
-        );
-
-      return res.redirect(
-        302,
-        signedUrl
+      const signedUrl = generateSignedResumeUrl(
+        profile.resume.publicId
       );
+
+      const response = await axios.get(signedUrl, {
+        responseType: "stream",
+      });
+
+      res.setHeader(
+        "Content-Type",
+        profile.resume.mimeType || "application/pdf"
+      );
+
+      res.setHeader(
+        "Content-Disposition",
+        'inline; filename="resume.pdf"'
+      );
+
+      res.setHeader("Cache-Control", "public, max-age=300");
+
+      return response.data.pipe(res);
     } catch (error) {
       console.error(
         "Get public resume error:",
@@ -1636,8 +1669,8 @@ const deleteProfile =
       ) {
         try {
           await deleteResume(
-            existingProfile.resume
-              .publicId
+            existingProfile.resume.publicId,
+            existingProfile.resume.resourceType || "raw"
           );
         } catch (deleteError) {
           console.error(

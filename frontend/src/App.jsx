@@ -308,24 +308,25 @@ function PublicPortfolio() {
   } = portfolioData;
 
   return (
-    <div className="app-shell">
-      <Navbar
-        navigationItems={publicNavigationItems}
-      />
+  <div className="app-shell">
+    <Navbar
+      navigationItems={publicNavigationItems}
+    />
 
-      <main className="app-page-transition">
-        <PublicHome
-          profile={profile}
-          hero={hero}
-          projects={projects}
-          experiences={experiences}
-          education={education}
-          certifications={certifications}
-          socialLinks={socialLinks}
-        />
-      </main>
-    </div>
-  );
+    <main className="app-page-transition">
+      <PublicHome
+  profile={profile}
+  hero={hero}
+  projects={projects}
+  experiences={experiences}
+  education={education}
+  certifications={certifications}
+  socialLinks={socialLinks}
+  publicResumeUrl={`${API_BASE_URL.replace(/\/$/, "")}/api/profile/resume`}
+/>
+    </main>
+  </div>
+);
 }
 
 /* =========================================================

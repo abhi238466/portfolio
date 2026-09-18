@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "motion/react";
 
 import {
@@ -7,6 +8,9 @@ import {
   Mail,
   MapPin,
   Sparkles,
+  X,
+  Eye,
+  FileText,
 } from "lucide-react";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -239,15 +243,12 @@ function MediaPreview({
         toNumber(b?.displayOrder)
     );
 
-  if (media.length === 0) {
-    return null;
-  }
+  if (media.length === 0) return null;
 
   return (
     <div className={className}>
       {media.map((item, index) => {
         const url = getDocumentUrl(item);
-
         const label =
           item?.originalName ||
           item?.name ||
@@ -261,66 +262,228 @@ function MediaPreview({
           item?.publicId ||
           `${url}-${index}`;
 
-        if (isImageDocument(item)) {
-          return (
-            <a
-              key={key}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="public-media-item"
-            >
-              <img
-                src={url}
-                alt={label}
-                loading="lazy"
-              />
-            </a>
-          );
-        }
-
-        if (isPdfDocument(item)) {
-          return (
-            <div
-              key={key}
-              className="public-pdf-preview"
-            >
-              <iframe
-                src={url}
-                title={label}
-                loading="lazy"
-              />
-
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="public-document-link"
-              >
-                <ExternalLink size={14} />
-
-                <span>
-                  Open PDF: {label}
-                </span>
-              </a>
-            </div>
-          );
-        }
-
         return (
           <a
             key={key}
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="public-document-link"
+            className="public-media-item public-media-open-button"
+            aria-label={`Open ${label}`}
           >
-            <ExternalLink size={14} />
-
-            <span>{label}</span>
+            {isImageDocument(item) ? (
+              <img
+                src={url}
+                alt={label}
+                loading="lazy"
+              />
+            ) : (
+              <>
+                <FileText size={22} />
+                <span>View document</span>
+              </>
+            )}
+            <span className="public-media-item-label">
+              {isImageDocument(item) ? "View image" : "Open document"}
+            </span>
           </a>
         );
       })}
+    </div>
+  );
+}
+
+/* =========================================================
+   DETAIL MODAL
+========================================================= */
+
+const getItemMedia = (item) =>
+  getMediaItems(item, [
+    "images",
+    "documents",
+    "media",
+    "attachments",
+    "files",
+  ]);
+
+const renderValue = (value) => {
+  if (value === null || value === undefined) return "";
+  if (Array.isArray(value)) return value.filter(Boolean).join(", ");
+  return String(value);
+};
+
+function DetailRow({ label, value }) {
+  const formatted = renderValue(value);
+
+  if (!formatted) return null;
+
+  return (
+    <div className="public-detail-row">
+      <span>{label}</span>
+      <strong>{formatted}</strong>
+    </div>
+  );
+}
+
+function DetailsModal({ detail, onClose }) {
+  if (!detail?.item) return null;
+
+  const { type, item } = detail;
+  const media = getItemMedia(item);
+  const title =
+    type === "project"
+      ? item?.title
+      : type === "experience"
+        ? item?.role
+        : type === "education"
+          ? item?.degreeName
+          : item?.certificateName;
+
+  const subtitle =
+    type === "project"
+      ? item?.category || item?.projectType
+      : type === "experience"
+        ? item?.companyName
+        : type === "education"
+          ? item?.institutionName
+          : item?.issuingOrganization;
+
+  return (
+    <div
+      className="public-detail-backdrop"
+      role="presentation"
+      onClick={onClose}
+    >
+      <div
+        className="public-detail-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="public-detail-title"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="public-detail-header">
+          <div>
+            <span className="public-section-eyebrow">
+              {type.toUpperCase()}
+            </span>
+            <h2 id="public-detail-title">{title || "Details"}</h2>
+            {subtitle && <p>{subtitle}</p>}
+          </div>
+
+          <button
+            type="button"
+            className="public-detail-close"
+            onClick={onClose}
+            aria-label="Close details"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="public-detail-content">
+          {type === "project" && (
+            <>
+              <DetailRow label="Status" value={item?.status} />
+              <DetailRow label="Role" value={item?.role} />
+              <DetailRow label="Technologies" value={item?.technologies} />
+              <DetailRow label="Category" value={item?.category || item?.projectType} />
+              <div className="public-detail-description">
+                {item?.fullDescription || item?.description || item?.shortDescription}
+              </div>
+              {item?.features && (
+                <DetailRow label="Features" value={item.features} />
+              )}
+            </>
+          )}
+
+          {type === "experience" && (
+            <>
+              <DetailRow
+                label="Duration"
+                value={dateRange(item?.startDate, item?.endDate, item?.currentlyWorking)}
+              />
+              <DetailRow label="Work mode" value={item?.workMode} />
+              <DetailRow label="Technologies" value={item?.technologies} />
+              <DetailRow label="Skills" value={item?.skills} />
+              <div className="public-detail-description">
+                {item?.description}
+              </div>
+            </>
+          )}
+
+          {type === "education" && (
+            <>
+              <DetailRow label="Education level" value={item?.educationLevel} />
+              <DetailRow label="Field of study" value={item?.fieldOfStudy} />
+              <DetailRow label="Board / University" value={item?.boardOrUniversity} />
+              <DetailRow label="Duration" value={dateRange(item?.startDate, item?.endDate, item?.currentlyStudying)} />
+              <DetailRow label="Grade" value={item?.grade} />
+              <DetailRow label="CGPA" value={item?.cgpa} />
+              <div className="public-detail-description">
+                {item?.description}
+              </div>
+            </>
+          )}
+
+          {type === "certification" && (
+            <>
+              <DetailRow label="Issue date" value={formatDate(item?.issueDate)} />
+              <DetailRow label="Expiry date" value={formatDate(item?.expiryDate)} />
+              <DetailRow label="Credential ID" value={item?.credentialId} />
+              <DetailRow label="Technologies" value={item?.technologies} />
+              <DetailRow label="Skills" value={item?.skills} />
+              <div className="public-detail-description">
+                {item?.description}
+              </div>
+              {item?.credentialUrl && (
+                <a
+                  className="public-detail-link"
+                  href={item.credentialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Verify credential <ExternalLink size={14} />
+                </a>
+              )}
+            </>
+          )}
+
+          {media.length > 0 && (
+            <div className="public-detail-media-section">
+              <h3>Documents & media</h3>
+              <MediaPreview
+                items={media}
+                className="public-detail-media"
+              />
+            </div>
+          )}
+
+          {type === "project" && (
+            <div className="public-detail-links">
+              {item?.githubUrl && (
+                <a href={item.githubUrl} target="_blank" rel="noopener noreferrer">
+                  GitHub <ExternalLink size={14} />
+                </a>
+              )}
+              {item?.liveDemoUrl && (
+                <a href={item.liveDemoUrl} target="_blank" rel="noopener noreferrer">
+                  Live Demo <ExternalLink size={14} />
+                </a>
+              )}
+              {asArray(item?.links).filter(visibleItem).map((link, index) => (
+                <a
+                  key={link?._id || link?.id || link?.url || index}
+                  href={link?.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link?.label || "Open link"} <ExternalLink size={14} />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -398,7 +561,10 @@ function PublicHome({
   education = [],
   certifications = [],
   socialLinks = {},
+  publicResumeUrl = "",
 }) {
+  const [selectedDetail, setSelectedDetail] = useState(null);
+
   /* -------------------------------------------------------
      PROFILE DATA
   ------------------------------------------------------- */
@@ -456,11 +622,16 @@ function PublicHome({
   const emailUrl =
     getGmailComposeUrl(emailAddress);
 
-  const resumeUrl =
-    hero?.primaryCta?.url ||
-    profile?.resume?.url ||
-    profile?.resumeUrl ||
-    "";
+const resumeUrl =
+  publicResumeUrl ||
+  hero?.primaryCta?.url ||
+  profile?.resume?.secure_url ||
+  profile?.resume?.secureUrl ||
+  profile?.resume?.url ||
+  profile?.resumeUrl ||
+  profile?.resumeUrl?.secure_url ||
+  profile?.resumeUrl?.secureUrl ||
+  "";
 
   const contactUrl =
     hero?.secondaryCta?.url ||
@@ -868,13 +1039,37 @@ function PublicHome({
                 "Profile information will appear here once it is published from the admin dashboard."}
             </p>
 
-            {profile?.location && (
-              <span className="public-meta">
-                <MapPin size={15} />
+           {profile?.location && (
+  <span className="public-meta">
+    <MapPin size={15} />
 
-                {profile.location}
-              </span>
-            )}
+    {profile.location}
+  </span>
+)}
+
+{profile?.currentAddress && (
+  <span className="public-meta">
+    <MapPin size={15} />
+
+    <strong>Current Address:</strong>
+
+    <span className="public-meta-value">
+      {profile.currentAddress}
+    </span>
+  </span>
+)}
+
+{profile?.permanentAddress && (
+  <span className="public-meta">
+    <MapPin size={15} />
+
+    <strong>Permanent Address:</strong>
+
+    <span className="public-meta-value">
+      {profile.permanentAddress}
+    </span>
+  </span>
+)}
           </div>
 
           <div className="public-panel public-facts">
@@ -959,15 +1154,6 @@ function PublicHome({
         <div className="public-card-grid">
           {publicProjects.length ? (
             publicProjects.map((project) => {
-              const projectMedia =
-                getMediaItems(project, [
-                  "images",
-                  "documents",
-                  "media",
-                  "attachments",
-                  "files",
-                ]);
-
               return (
                 <article
                   className="public-panel public-project-card"
@@ -1013,57 +1199,19 @@ function PublicHome({
                     ))}
                   </div>
 
-                  <MediaPreview
-                    items={projectMedia}
-                    className="public-project-media"
-                  />
-
-                  <div className="public-card-links">
-                    {project?.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        GitHub
-
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
-
-                    {project?.liveDemoUrl && (
-                      <a
-                        href={project.liveDemoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Live Demo
-
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
-
-                    {asArray(project?.links)
-                      .filter(visibleItem)
-                      .map((link, index) => (
-                        <a
-                          key={
-                            link?._id ||
-                            link?.id ||
-                            link?.url ||
-                            index
-                          }
-                          href={link?.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {link?.label ||
-                            "Open link"}
-
-                          <ExternalLink size={14} />
-                        </a>
-                      ))}
+                  <div className="public-card-actions">
+                    <button
+                      type="button"
+                      className="public-view-details-button"
+                      onClick={() =>
+                        setSelectedDetail({ type: "project", item: project })
+                      }
+                    >
+                      <Eye size={16} /> View details
+                    </button>
                   </div>
+
+
                 </article>
               );
             })
@@ -1092,15 +1240,6 @@ function PublicHome({
         <div className="public-timeline">
           {publicExperiences.length ? (
             publicExperiences.map((item) => {
-              const experienceMedia =
-                getMediaItems(item, [
-                  "documents",
-                  "images",
-                  "media",
-                  "attachments",
-                  "files",
-                ]);
-
               return (
                 <article
                   className="public-panel public-timeline-item"
@@ -1152,10 +1291,17 @@ function PublicHome({
                       ))}
                     </div>
 
-                    <MediaPreview
-                      items={experienceMedia}
-                      className="public-experience-media"
-                    />
+                    <div className="public-card-actions">
+                      <button
+                        type="button"
+                        className="public-view-details-button"
+                        onClick={() =>
+                          setSelectedDetail({ type: "experience", item })
+                        }
+                      >
+                        <Eye size={16} /> View experience
+                      </button>
+                    </div>
                   </div>
                 </article>
               );
@@ -1185,15 +1331,6 @@ function PublicHome({
         <div className="public-card-grid">
           {publicEducation.length ? (
             publicEducation.map((item) => {
-              const educationMedia =
-                getMediaItems(item, [
-                  "documents",
-                  "images",
-                  "media",
-                  "attachments",
-                  "files",
-                ]);
-
               return (
                 <article
                   className="public-panel public-education-card"
@@ -1251,10 +1388,17 @@ function PublicHome({
                     <p>{item.description}</p>
                   )}
 
-                  <MediaPreview
-                    items={educationMedia}
-                    className="public-education-media"
-                  />
+                  <div className="public-card-actions">
+                    <button
+                      type="button"
+                      className="public-view-details-button"
+                      onClick={() =>
+                        setSelectedDetail({ type: "education", item })
+                      }
+                    >
+                      <Eye size={16} /> View education
+                    </button>
+                  </div>
                 </article>
               );
             })
@@ -1283,15 +1427,6 @@ function PublicHome({
         <div className="public-card-grid">
           {publicCertifications.length ? (
             publicCertifications.map((item) => {
-              const certificationMedia =
-                getMediaItems(item, [
-                  "documents",
-                  "images",
-                  "media",
-                  "attachments",
-                  "files",
-                ]);
-
               return (
                 <article
                   className="public-panel public-certification-card"
@@ -1344,23 +1479,17 @@ function PublicHome({
                     ))}
                   </div>
 
-                  <MediaPreview
-                    items={certificationMedia}
-                    className="public-document-media"
-                  />
-
-                  {item?.credentialUrl && (
-                    <a
-                      className="public-inline-link"
-                      href={item.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                  <div className="public-card-actions">
+                    <button
+                      type="button"
+                      className="public-view-details-button"
+                      onClick={() =>
+                        setSelectedDetail({ type: "certification", item })
+                      }
                     >
-                      Verify credential
-
-                      <ExternalLink size={14} />
-                    </a>
-                  )}
+                      <Eye size={16} /> View certification
+                    </button>
+                  </div>
                 </article>
               );
             })
@@ -1400,12 +1529,28 @@ function PublicHome({
             </p>
 
             {profile?.currentAddress && (
-              <span className="public-meta">
-                <MapPin size={15} />
+  <span className="public-meta">
+    <MapPin size={15} />
 
-                {profile.currentAddress}
-              </span>
-            )}
+    <strong>Current Address:</strong>
+
+    <span className="public-meta-value">
+      {profile.currentAddress}
+    </span>
+  </span>
+)}
+
+{profile?.permanentAddress && (
+  <span className="public-meta">
+    <MapPin size={15} />
+
+    <strong>Permanent Address:</strong>
+
+    <span className="public-meta-value">
+      {profile.permanentAddress}
+    </span>
+  </span>
+)}
           </div>
 
           <div className="public-contact-actions">
@@ -1438,6 +1583,11 @@ function PublicHome({
         </div>
       </section>
 
+      <DetailsModal
+        detail={selectedDetail}
+        onClose={() => setSelectedDetail(null)}
+      />
+
       {/* =================================================
           FOOTER
       ================================================= */}
@@ -1457,4 +1607,7 @@ function PublicHome({
   );
 }
 
+
+
 export default PublicHome;
+

@@ -26,43 +26,120 @@ const CERTIFICATION_FOLDER =
 
 /*
 |--------------------------------------------------------------------------
-| Upload Profile Photo
+| Constants
+|--------------------------------------------------------------------------
+*/
+
+const PDF_MIME_TYPE =
+  "application/pdf";
+
+const ALLOWED_DOCUMENT_MIME_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];
+
+const ALLOWED_IMAGE_MIME_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];
+
+/*
+|--------------------------------------------------------------------------
+| Validation Helpers
+|--------------------------------------------------------------------------
+*/
+
+const validateFile = (
+  file,
+  errorMessage
+) => {
+  if (!file || !file.buffer) {
+    throw new Error(errorMessage);
+  }
+};
+
+const validateMimeType = (
+  file,
+  allowedMimeTypes,
+  errorMessage
+) => {
+  if (!allowedMimeTypes.includes(file.mimetype)) {
+    throw new Error(errorMessage);
+  }
+};
+
+const isPdfFile = (file) => {
+  return file.mimetype === PDF_MIME_TYPE;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Signed Cloudinary URL Helper
 |--------------------------------------------------------------------------
 |
-| Receives a Multer file buffer and uploads it
-| directly to Cloudinary.
+| Generates a signed authenticated URL.
 |
-| No permanent file is stored on the
-| local/server filesystem.
+| The resource type must match the resource type
+| used during the original Cloudinary upload.
 |
 */
 
-const uploadProfilePhoto = async (
-  file
+const createSignedUrl = (
+  publicId,
+  resourceType = "image",
+  type = "upload",
+  format = null
 ) => {
-  if (!file || !file.buffer) {
+  if (!publicId) {
     throw new Error(
-      "Profile photo file is required."
+      "Cloudinary public ID is required."
     );
   }
 
+  const options = {
+    secure: true,
+    resource_type: resourceType,
+    type,
+    sign_url: true,
+  };
+
+  /*
+   * Only include format when explicitly provided.
+   *
+   * Do not force PDF format on image files.
+   */
+  if (format) {
+    options.format = format;
+  }
+
+  return cloudinary.url(
+    publicId,
+    options
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| Upload Stream Helper
+|--------------------------------------------------------------------------
+|
+| Uploads a file buffer directly to Cloudinary.
+|
+*/
+
+const uploadBuffer = (
+  file,
+  options,
+  errorMessage
+) => {
   return new Promise(
     (resolve, reject) => {
       const uploadStream =
         cloudinary.uploader.upload_stream(
-          {
-            folder:
-              PROFILE_PHOTO_FOLDER,
-
-            resource_type: "image",
-
-            use_filename: true,
-
-            unique_filename: true,
-
-            overwrite: false,
-          },
-
+          options,
           (error, result) => {
             if (error) {
               return reject(error);
@@ -70,49 +147,116 @@ const uploadProfilePhoto = async (
 
             if (!result) {
               return reject(
-                new Error(
-                  "Cloudinary upload returned no result."
-                )
+                new Error(errorMessage)
               );
             }
 
-            return resolve({
-              url: result.secure_url,
-
-              publicId:
-                result.public_id,
-
-              resourceType:
-                result.resource_type,
-
-              format:
-                result.format,
-
-              width:
-                result.width,
-
-              height:
-                result.height,
-
-              bytes:
-                result.bytes,
-
-              originalName:
-                file.originalname,
-
-              mimeType:
-                file.mimetype,
-
-              size:
-                file.size,
-            });
+            return resolve(result);
           }
         );
 
-      uploadStream.end(
-        file.buffer
-      );
+      uploadStream.end(file.buffer);
     }
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| Common File Response
+|--------------------------------------------------------------------------
+*/
+
+const buildFileResponse = (
+  file,
+  result,
+  url
+) => {
+  return {
+    url,
+
+    publicId:
+      result.public_id,
+
+    resourceType:
+      result.resource_type,
+
+    deliveryType:
+      result.type || null,
+
+    format:
+      result.format || null,
+
+    width:
+      result.width || null,
+
+    height:
+      result.height || null,
+
+    bytes:
+      result.bytes || null,
+
+    originalName:
+      file.originalname,
+
+    mimeType:
+      file.mimetype,
+
+    size:
+      file.size,
+  };
+};
+
+/*
+|--------------------------------------------------------------------------
+| Upload Profile Photo
+|--------------------------------------------------------------------------
+|
+| Profile photos are normal public image assets.
+|
+*/
+
+const uploadProfilePhoto = async (
+  file
+) => {
+  validateFile(
+    file,
+    "Profile photo file is required."
+  );
+
+  validateMimeType(
+    file,
+    ALLOWED_IMAGE_MIME_TYPES,
+    "Profile photo must be JPG, JPEG, PNG, or WEBP."
+  );
+
+  const result = await uploadBuffer(
+    file,
+    {
+      folder:
+        PROFILE_PHOTO_FOLDER,
+
+      resource_type:
+        "image",
+
+      type:
+        "upload",
+
+      use_filename:
+        true,
+
+      unique_filename:
+        true,
+
+      overwrite:
+        false,
+    },
+    "Cloudinary profile photo upload returned no result."
+  );
+
+  return buildFileResponse(
+    file,
+    result,
+    result.secure_url
   );
 };
 
@@ -121,111 +265,59 @@ const uploadProfilePhoto = async (
 | Upload Resume
 |--------------------------------------------------------------------------
 |
-| Resume is uploaded as a RAW authenticated asset.
+| Resume is stored as a RAW authenticated asset.
 |
 */
 
 const uploadResume = async (
   file
 ) => {
-  if (!file || !file.buffer) {
-    throw new Error(
-      "Resume file is required."
-    );
-  }
+  validateFile(
+    file,
+    "Resume file is required."
+  );
 
-  if (
-    file.mimetype !==
-    "application/pdf"
-  ) {
+  if (file.mimetype !== PDF_MIME_TYPE) {
     throw new Error(
       "Resume must be a PDF file."
     );
   }
 
-  return new Promise(
-    (resolve, reject) => {
-      const uploadStream =
-        cloudinary.uploader.upload_stream(
-          {
-            folder:
-              RESUME_FOLDER,
+  const result = await uploadBuffer(
+    file,
+    {
+      folder:
+        RESUME_FOLDER,
 
-            resource_type:
-              "raw",
+      resource_type:
+        "raw",
 
-            type:
-              "authenticated",
+      type:
+        "authenticated",
 
-            use_filename: true,
+      use_filename:
+        true,
 
-            unique_filename: true,
+      unique_filename:
+        true,
 
-            overwrite: false,
-          },
+      overwrite:
+        false,
+    },
+    "Cloudinary resume upload returned no result."
+  );
 
-          (error, result) => {
-            if (error) {
-              return reject(error);
-            }
+  const signedUrl =
+    createSignedUrl(
+      result.public_id,
+      result.resource_type,
+      "authenticated"
+    );
 
-            if (!result) {
-              return reject(
-                new Error(
-                  "Cloudinary resume upload returned no result."
-                )
-              );
-            }
-
-            const signedUrl =
-              cloudinary.url(
-                result.public_id,
-                {
-                  secure: true,
-
-                  resource_type:
-                    "raw",
-
-                  type:
-                    "authenticated",
-
-                  sign_url:
-                    true,
-                }
-              );
-
-            return resolve({
-              url:
-                signedUrl,
-
-              publicId:
-                result.public_id,
-
-              resourceType:
-                result.resource_type,
-
-              format:
-                result.format,
-
-              originalName:
-                file.originalname,
-
-              mimeType:
-                file.mimetype,
-
-              size:
-                file.size,
-
-              bytes:
-                result.bytes,
-            });
-          }
-        );
-
-      uploadStream.end(
-        file.buffer
-      );
-    }
+  return buildFileResponse(
+    file,
+    result,
+    signedUrl
   );
 };
 
@@ -234,130 +326,55 @@ const uploadResume = async (
 | Upload Project Image
 |--------------------------------------------------------------------------
 |
-| Project images are uploaded as normal Cloudinary
-| image assets.
+| Project images are public image assets.
 |
-| IMPORTANT:
-| - Original aspect ratio is preserved.
-| - No crop transformation is applied.
-| - No forced width/height is applied.
-| - Original width and height are returned.
-| - Original file metadata is returned.
-|
-| This means:
-|
-| Portrait  → remains portrait
-| Landscape → remains landscape
-| Square    → remains square
+| Original aspect ratio is preserved.
+| No crop or forced dimensions are applied.
 |
 */
 
 const uploadProjectImage = async (
   file
 ) => {
-  if (!file || !file.buffer) {
-    throw new Error(
-      "Project image file is required."
-    );
-  }
+  validateFile(
+    file,
+    "Project image file is required."
+  );
 
-  const allowedMimeTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-  ];
+  validateMimeType(
+    file,
+    ALLOWED_IMAGE_MIME_TYPES,
+    "Project image must be JPG, JPEG, PNG, or WEBP."
+  );
 
-  if (
-    !allowedMimeTypes.includes(
-      file.mimetype
-    )
-  ) {
-    throw new Error(
-      "Project image must be JPG, JPEG, PNG, or WEBP."
-    );
-  }
+  const result = await uploadBuffer(
+    file,
+    {
+      folder:
+        PROJECTS_FOLDER,
 
-  return new Promise(
-    (resolve, reject) => {
-      const uploadStream =
-        cloudinary.uploader.upload_stream(
-          {
-            folder:
-              PROJECTS_FOLDER,
+      resource_type:
+        "image",
 
-            resource_type: "image",
+      type:
+        "upload",
 
-            /*
-             * Keep the uploaded image itself
-             * untouched.
-             */
-            use_filename: true,
+      use_filename:
+        true,
 
-            unique_filename: true,
+      unique_filename:
+        true,
 
-            overwrite: false,
-          },
+      overwrite:
+        false,
+    },
+    "Cloudinary project image upload returned no result."
+  );
 
-          (error, result) => {
-            if (error) {
-              return reject(error);
-            }
-
-            if (!result) {
-              return reject(
-                new Error(
-                  "Cloudinary project image upload returned no result."
-                )
-              );
-            }
-
-            /*
-             * IMPORTANT:
-             *
-             * No transformation is applied here.
-             *
-             * secure_url is the original Cloudinary
-             * asset URL.
-             */
-
-            return resolve({
-              url:
-                result.secure_url,
-
-              publicId:
-                result.public_id,
-
-              resourceType:
-                result.resource_type,
-
-              format:
-                result.format,
-
-              width:
-                result.width,
-
-              height:
-                result.height,
-
-              bytes:
-                result.bytes,
-
-              originalName:
-                file.originalname,
-
-              mimeType:
-                file.mimetype,
-
-              size:
-                file.size,
-            });
-          }
-        );
-
-      uploadStream.end(
-        file.buffer
-      );
-    }
+  return buildFileResponse(
+    file,
+    result,
+    result.secure_url
   );
 };
 
@@ -366,129 +383,68 @@ const uploadProjectImage = async (
 | Upload Experience Document
 |--------------------------------------------------------------------------
 |
-| Experience certificates/documents are stored as RAW authenticated
-| Cloudinary assets so sensitive document URLs are not publicly exposed.
+| PDF files:
+|   raw + authenticated
+|
+| Image files:
+|   image + authenticated
 |
 */
 
 const uploadExperienceDocument = async (
   file
 ) => {
-  if (!file || !file.buffer) {
-    throw new Error(
-      "Experience document file is required."
+  validateFile(
+    file,
+    "Experience document file is required."
+  );
+
+  validateMimeType(
+    file,
+    ALLOWED_DOCUMENT_MIME_TYPES,
+    "Experience document must be a PDF, JPG, JPEG, PNG, or WEBP file."
+  );
+
+  const resourceType =
+    isPdfFile(file)
+      ? "raw"
+      : "image";
+
+  const result = await uploadBuffer(
+    file,
+    {
+      folder:
+        EXPERIENCE_FOLDER,
+
+      resource_type:
+        resourceType,
+
+      type:
+        "authenticated",
+
+      use_filename:
+        true,
+
+      unique_filename:
+        true,
+
+      overwrite:
+        false,
+    },
+    "Cloudinary experience document upload returned no result."
+  );
+
+  const signedUrl =
+    createSignedUrl(
+      result.public_id,
+      result.resource_type,
+      "authenticated"
     );
-  }
 
-  const allowedMimeTypes = [
-    "application/pdf",
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-  ];
-
-  if (
-    !allowedMimeTypes.includes(
-      file.mimetype
-    )
-  ) {
-    throw new Error(
-      "Experience document must be a PDF, JPG, JPEG, PNG, or WEBP file."
-    );
-  }
-
-  return new Promise(
-    (resolve, reject) => {
-      const uploadStream =
-        cloudinary.uploader.upload_stream(
-          {
-            folder:
-              EXPERIENCE_FOLDER,
-
-            resource_type:
-              file.mimetype ===
-              "application/pdf"
-                ? "raw"
-                : "image",
-
-            type:
-              "authenticated",
-
-            use_filename: true,
-
-            unique_filename: true,
-
-            overwrite: false,
-          },
-
-          (error, result) => {
-            if (error) {
-              return reject(error);
-            }
-
-            if (!result) {
-              return reject(
-                new Error(
-                  "Cloudinary experience document upload returned no result."
-                )
-              );
-            }
-
-            return resolve({
-              url:
-                cloudinary.url(
-                  result.public_id,
-                  {
-                    secure: true,
-
-                    resource_type:
-                      result.resource_type,
-
-                    type:
-                      "authenticated",
-
-                    sign_url:
-                      true,
-                  }
-                ),
-
-              publicId:
-                result.public_id,
-
-              resourceType:
-                result.resource_type,
-
-              deliveryType:
-                "authenticated",
-
-              format:
-                result.format,
-
-              width:
-                result.width || null,
-
-              height:
-                result.height || null,
-
-              bytes:
-                result.bytes,
-
-              originalName:
-                file.originalname,
-
-              mimeType:
-                file.mimetype,
-
-              size:
-                file.size,
-            });
-          }
-        );
-
-      uploadStream.end(
-        file.buffer
-      );
-    }
+  return buildFileResponse(
+    file,
+    result,
+    signedUrl
   );
 };
 
@@ -502,197 +458,143 @@ const uploadExperienceDocument = async (
 | - Class 10 marksheet
 | - Class 12 marksheet
 | - Graduation marksheet / degree
-| - Post Graduation / MCA marksheet / degree
+| - MCA marksheet / degree
 | - Certificates
 | - Transcripts
 | - Other academic documents
 |
-| Each education record keeps its own document metadata
-| inside the Education MongoDB document.
+| PDF:
+|   raw + authenticated
 |
-| Files are stored in the dedicated:
-|
-| portfolio/education/
-|
-| Cloudinary folder.
-|
-| IMPORTANT:
-| - PDF files are stored as RAW authenticated assets.
-| - Image files are stored as IMAGE authenticated assets.
-| - No permanent public storage URL is exposed as the
-|   public education API response.
-| - A signed URL is returned for protected admin preview.
-| - Original image dimensions are preserved.
+| Image:
+|   image + authenticated
 |
 */
 
 const uploadEducationDocument = async (
   file
 ) => {
-  if (!file || !file.buffer) {
-    throw new Error(
-      "Education document file is required."
+  validateFile(
+    file,
+    "Education document file is required."
+  );
+
+  validateMimeType(
+    file,
+    ALLOWED_DOCUMENT_MIME_TYPES,
+    "Education document must be a PDF, JPG, JPEG, PNG, or WEBP file."
+  );
+
+  const resourceType =
+    isPdfFile(file)
+      ? "raw"
+      : "image";
+
+  const result = await uploadBuffer(
+    file,
+    {
+      folder:
+        EDUCATION_FOLDER,
+
+      resource_type:
+        resourceType,
+
+      type:
+        "authenticated",
+
+      use_filename:
+        true,
+
+      unique_filename:
+        true,
+
+      overwrite:
+        false,
+    },
+    "Cloudinary education document upload returned no result."
+  );
+
+  const signedUrl =
+    createSignedUrl(
+      result.public_id,
+      result.resource_type,
+      "authenticated"
     );
-  }
 
-  const allowedMimeTypes = [
-    "application/pdf",
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-  ];
+  return buildFileResponse(
+    file,
+    result,
+    signedUrl
+  );
+};
 
-  if (
-    !allowedMimeTypes.includes(
-      file.mimetype
-    )
-  ) {
-    throw new Error(
-      "Education document must be a PDF, JPG, JPEG, PNG, or WEBP file."
+/*
+|--------------------------------------------------------------------------
+| Upload Certification Document
+|--------------------------------------------------------------------------
+|
+| PDF:
+|   raw + authenticated
+|
+| Image:
+|   image + authenticated
+|
+*/
+
+const uploadCertificationDocument = async (
+  file
+) => {
+  validateFile(
+    file,
+    "Certification document file is required."
+  );
+
+  validateMimeType(
+    file,
+    ALLOWED_DOCUMENT_MIME_TYPES,
+    "Certification document must be a PDF, JPG, JPEG, PNG, or WEBP file."
+  );
+
+  const resourceType =
+    isPdfFile(file)
+      ? "raw"
+      : "image";
+
+  const result = await uploadBuffer(
+    file,
+    {
+      folder:
+        CERTIFICATION_FOLDER,
+
+      resource_type:
+        resourceType,
+
+      type:
+        "authenticated",
+
+      use_filename:
+        true,
+
+      unique_filename:
+        true,
+
+      overwrite:
+        false,
+    },
+    "Cloudinary certification document upload returned no result."
+  );
+
+  const signedUrl =
+    createSignedUrl(
+      result.public_id,
+      result.resource_type,
+      "authenticated"
     );
-  }
 
-  const isPdf =
-    file.mimetype ===
-    "application/pdf";
-
-  return new Promise(
-    (resolve, reject) => {
-      const uploadStream =
-        cloudinary.uploader.upload_stream(
-          {
-            folder:
-              EDUCATION_FOLDER,
-
-            /*
-             * IMPORTANT:
-             *
-             * Cloudinary supports PDF delivery as an IMAGE asset.
-             * Keeping Education PDFs as image/authenticated assets
-             * allows the browser PDF viewer / iframe to render them
-             * instead of treating the raw file as a download.
-             *
-             * Other modules are intentionally untouched.
-             */
-            resource_type:
-              "image",
-
-            type:
-              "authenticated",
-
-            /*
-             * Preserve the original file.
-             *
-             * No crop.
-             * No resize.
-             * No forced aspect ratio.
-             */
-            use_filename: true,
-
-            unique_filename: true,
-
-            overwrite: false,
-          },
-
-          (error, result) => {
-            if (error) {
-              return reject(error);
-            }
-
-            if (!result) {
-              return reject(
-                new Error(
-                  "Cloudinary education document upload returned no result."
-                )
-              );
-            }
-
-            /*
-             * Generate a signed authenticated URL.
-             *
-             * This URL can later be used by the protected
-             * admin preview endpoint without exposing the
-             * permanent Cloudinary publicId through the
-             * public portfolio API.
-             */
-
-            const signedUrl =
-              cloudinary.url(
-                result.public_id,
-                {
-                  secure: true,
-
-                  resource_type:
-                    result.resource_type,
-
-                  type:
-                    "authenticated",
-
-                  /*
-                   * IMPORTANT:
-                   *
-                   * Education PDFs are uploaded as
-                   * authenticated IMAGE assets.
-                   *
-                   * The PDF format must be included in
-                   * the signed delivery URL so the browser
-                   * receives a real .pdf URL.
-                   *
-                   * Images keep their original format.
-                   */
-                  format:
-                    isPdf
-                      ? "pdf"
-                      : result.format,
-
-                  sign_url:
-                    true,
-                }
-              );
-
-            return resolve({
-              url:
-                signedUrl,
-
-              publicId:
-                result.public_id,
-
-              resourceType:
-                result.resource_type,
-
-              deliveryType:
-                "authenticated",
-
-              format:
-                result.format,
-
-              width:
-                result.width ||
-                null,
-
-              height:
-                result.height ||
-                null,
-
-              bytes:
-                result.bytes,
-
-              originalName:
-                file.originalname,
-
-              mimeType:
-                file.mimetype,
-
-              size:
-                file.size,
-            });
-          }
-        );
-
-      uploadStream.end(
-        file.buffer
-      );
-    }
+  return buildFileResponse(
+    file,
+    result,
+    signedUrl
   );
 };
 
@@ -700,37 +602,44 @@ const uploadEducationDocument = async (
 |--------------------------------------------------------------------------
 | Generate Signed Cloudinary URL
 |--------------------------------------------------------------------------
-|
-| Used by the backend when a protected/public
-| endpoint needs to deliver a stored Cloudinary
-| asset without exposing the permanent asset
-| reference in the profile API response.
-|
 */
 
 const generateSignedUrl = (
   publicId,
   resourceType = "image",
-  type = "upload"
+  type = "upload",
+  format = null
+) => {
+  return createSignedUrl(
+    publicId,
+    resourceType,
+    type,
+    format
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| Generate Signed Resume URL
+|--------------------------------------------------------------------------
+*/
+
+const generateSignedResumeUrl = (
+  publicId,
+  resourceType = "raw",
+  format = null
 ) => {
   if (!publicId) {
     throw new Error(
-      "Cloudinary public ID is required."
+      "Cloudinary resume public ID is required."
     );
   }
 
-  return cloudinary.url(
+  return createSignedUrl(
     publicId,
-    {
-      secure: true,
-
-      resource_type:
-        resourceType,
-
-      type,
-
-      sign_url: true,
-    }
+    resourceType,
+    "authenticated",
+    format
   );
 };
 
@@ -742,12 +651,20 @@ const generateSignedUrl = (
 
 const generateSignedExperienceDocumentUrl = (
   publicId,
-  resourceType = "raw"
+  resourceType = "raw",
+  format = null
 ) => {
-  return generateSignedUrl(
+  if (!publicId) {
+    throw new Error(
+      "Cloudinary experience document public ID is required."
+    );
+  }
+
+  return createSignedUrl(
     publicId,
     resourceType,
-    "authenticated"
+    "authenticated",
+    format
   );
 };
 
@@ -768,58 +685,36 @@ const generateSignedEducationDocumentUrl = (
     );
   }
 
-  const options = {
-    secure: true,
-
-    resource_type:
-      resourceType,
-
-    type:
-      "authenticated",
-
-    sign_url:
-      true,
-  };
-
-  /*
-   * IMPORTANT:
-   *
-   * Education PDFs are stored as authenticated IMAGE
-   * assets so the browser can render them as PDFs.
-   *
-   * Cloudinary needs the PDF format in the signed
-   * delivery URL when the publicId itself has no
-   * extension.
-   *
-   * Other document modules are intentionally untouched.
-   */
-  if (
-    resourceType === "image" &&
-    format === "pdf"
-  ) {
-    options.format =
-      "pdf";
-  }
-
-  return cloudinary.url(
+  return createSignedUrl(
     publicId,
-    options
+    resourceType,
+    "authenticated",
+    format
   );
 };
 
 /*
 |--------------------------------------------------------------------------
-| Generate Signed Resume URL
+| Generate Signed Certification Document URL
 |--------------------------------------------------------------------------
 */
 
-const generateSignedResumeUrl = (
-  publicId
+const generateSignedCertificationDocumentUrl = (
+  publicId,
+  resourceType = "raw",
+  format = null
 ) => {
-  return generateSignedUrl(
+  if (!publicId) {
+    throw new Error(
+      "Cloudinary certification document public ID is required."
+    );
+  }
+
+  return createSignedUrl(
     publicId,
-    "raw",
-    "authenticated"
+    resourceType,
+    "authenticated",
+    format
   );
 };
 
@@ -827,16 +722,6 @@ const generateSignedResumeUrl = (
 |--------------------------------------------------------------------------
 | Delete Cloudinary Asset
 |--------------------------------------------------------------------------
-|
-| Used when:
-| - Profile photo is replaced
-| - Profile photo is deleted
-| - Resume is replaced
-| - Resume is deleted
-| - Project image is replaced/deleted
-| - Experience document is replaced/deleted
-| - Education document is replaced/deleted
-|
 */
 
 const deleteCloudinaryAsset = async (
@@ -868,16 +753,15 @@ const deleteCloudinaryAsset = async (
 |--------------------------------------------------------------------------
 */
 
-const deleteProfilePhoto =
-  async (
-    publicId
-  ) => {
-    return deleteCloudinaryAsset(
-      publicId,
-      "image",
-      "upload"
-    );
-  };
+const deleteProfilePhoto = async (
+  publicId
+) => {
+  return deleteCloudinaryAsset(
+    publicId,
+    "image",
+    "upload"
+  );
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -885,180 +769,72 @@ const deleteProfilePhoto =
 |--------------------------------------------------------------------------
 */
 
-const deleteResume =
-  async (
-    publicId
-  ) => {
-    return deleteCloudinaryAsset(
-      publicId,
-      "raw",
-      "authenticated"
-    );
-  };
-
-/*
-|--------------------------------------------------------------------------
-| Delete Experience Document
-|--------------------------------------------------------------------------
-|
-| Experience documents are authenticated Cloudinary assets.
-|
-*/
-
-const deleteExperienceDocument =
-  async (
+const deleteResume = async (
+  publicId,
+  resourceType = "raw"
+) => {
+  return deleteCloudinaryAsset(
     publicId,
-    resourceType = "raw"
-  ) => {
-    return deleteCloudinaryAsset(
-      publicId,
-      resourceType,
-      "authenticated"
-    );
-  };
-
-/*
-|--------------------------------------------------------------------------
-| Delete Education Document
-|--------------------------------------------------------------------------
-|
-| Education documents are authenticated Cloudinary assets.
-|
-*/
-
-const deleteEducationDocument =
-  async (
-    publicId,
-    resourceType = "raw"
-  ) => {
-    return deleteCloudinaryAsset(
-      publicId,
-      resourceType,
-      "authenticated"
-    );
-  };
+    resourceType,
+    "authenticated"
+  );
+};
 
 /*
 |--------------------------------------------------------------------------
 | Delete Project Image
 |--------------------------------------------------------------------------
-|
-| Project images are normal Cloudinary image assets.
-|
 */
 
-const deleteProjectImage =
-  async (
-    publicId
-  ) => {
-    return deleteCloudinaryAsset(
-      publicId,
-      "image",
-      "upload"
-    );
-  };
-
-/*
-|--------------------------------------------------------------------------
-| Exports
-|--------------------------------------------------------------------------
-*/
-
-/*
- *|--------------------------------------------------------------------------
- *| Upload Certification Document
- *|--------------------------------------------------------------------------
- */
-
-const uploadCertificationDocument = async (file) => {
-  if (!file || !file.buffer) {
-    throw new Error("Certification document file is required.");
-  }
-
-  const allowedMimeTypes = [
-    "application/pdf",
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-  ];
-
-  if (!allowedMimeTypes.includes(file.mimetype)) {
-    throw new Error(
-      "Certification document must be a PDF, JPG, JPEG, PNG, or WEBP file."
-    );
-  }
-
-  const isPdf = file.mimetype === "application/pdf";
-
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: CERTIFICATION_FOLDER,
-        resource_type: isPdf ? "raw" : "image",
-        type: "authenticated",
-        use_filename: true,
-        unique_filename: true,
-        overwrite: false,
-      },
-      (error, result) => {
-        if (error) return reject(error);
-        if (!result) {
-          return reject(
-            new Error(
-              "Cloudinary certification document upload returned no result."
-            )
-          );
-        }
-
-        return resolve({
-          url: cloudinary.url(result.public_id, {
-            secure: true,
-            resource_type: result.resource_type,
-            type: "authenticated",
-            sign_url: true,
-          }),
-          publicId: result.public_id,
-          resourceType: result.resource_type,
-          deliveryType: "authenticated",
-          format: result.format,
-          width: result.width || null,
-          height: result.height || null,
-          bytes: result.bytes,
-          originalName: file.originalname,
-          mimeType: file.mimetype,
-          size: file.size,
-        });
-      }
-    );
-
-    uploadStream.end(file.buffer);
-  });
-};
-
-const generateSignedCertificationDocumentUrl = (
-  publicId,
-  resourceType = "raw",
-  format = null
+const deleteProjectImage = async (
+  publicId
 ) => {
-  if (!publicId) {
-    throw new Error(
-      "Cloudinary certification document public ID is required."
-    );
-  }
-
-  const options = {
-    secure: true,
-    resource_type: resourceType,
-    type: "authenticated",
-    sign_url: true,
-  };
-
-  if (resourceType === "raw" && format === "pdf") {
-    options.format = "pdf";
-  }
-
-  return cloudinary.url(publicId, options);
+  return deleteCloudinaryAsset(
+    publicId,
+    "image",
+    "upload"
+  );
 };
+
+/*
+|--------------------------------------------------------------------------
+| Delete Experience Document
+|--------------------------------------------------------------------------
+*/
+
+const deleteExperienceDocument = async (
+  publicId,
+  resourceType = "raw"
+) => {
+  return deleteCloudinaryAsset(
+    publicId,
+    resourceType,
+    "authenticated"
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| Delete Education Document
+|--------------------------------------------------------------------------
+*/
+
+const deleteEducationDocument = async (
+  publicId,
+  resourceType = "raw"
+) => {
+  return deleteCloudinaryAsset(
+    publicId,
+    resourceType,
+    "authenticated"
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| Delete Certification Document
+|--------------------------------------------------------------------------
+*/
 
 const deleteCertificationDocument = async (
   publicId,
@@ -1070,6 +846,12 @@ const deleteCertificationDocument = async (
     "authenticated"
   );
 };
+
+/*
+|--------------------------------------------------------------------------
+| Module Exports
+|--------------------------------------------------------------------------
+*/
 
 module.exports = {
   PROFILE_PHOTO_FOLDER,
