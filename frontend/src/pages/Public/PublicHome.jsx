@@ -712,6 +712,41 @@ const resumeUrl =
 
   return (
     <main className="public-home">
+      <div
+        className="public-home-background"
+        aria-hidden="true"
+      >
+        <motion.div
+          className="public-home-orb public-home-orb-one"
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+            scale: [1, 1.08, 1],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        <motion.div
+          className="public-home-orb public-home-orb-two"
+          animate={{
+            x: [0, -25, 0],
+            y: [0, 25, 0],
+            scale: [1, 1.12, 1],
+          }}
+          transition={{
+            duration: 11,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        <div className="public-home-grid" />
+      </div>
+
       {/* =================================================
           HERO
       ================================================= */}
@@ -721,41 +756,6 @@ const resumeUrl =
         className="public-home-hero"
         aria-labelledby="public-home-title"
       >
-        <div
-          className="public-home-background"
-          aria-hidden="true"
-        >
-          <motion.div
-            className="public-home-orb public-home-orb-one"
-            animate={{
-              x: [0, 30, 0],
-              y: [0, -20, 0],
-              scale: [1, 1.08, 1],
-            }}
-            transition={{
-              duration: 9,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-
-          <motion.div
-            className="public-home-orb public-home-orb-two"
-            animate={{
-              x: [0, -25, 0],
-              y: [0, 25, 0],
-              scale: [1, 1.12, 1],
-            }}
-            transition={{
-              duration: 11,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-
-          <div className="public-home-grid" />
-        </div>
-
         <div className="public-home-hero-container">
           <motion.div
             className="public-home-hero-content"
@@ -1610,4 +1610,3 @@ const resumeUrl =
 
 
 export default PublicHome;
-

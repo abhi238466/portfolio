@@ -1830,3 +1830,86 @@
 .public-about-copy .public-meta:first-of-type {
   margin-top: 30px;
 }
+
+/* =========================================================
+   FULL PAGE BACKGROUND + MULTI-LINE TEXT ALIGNMENT FIX
+   Existing colors, spacing, and design are preserved.
+   ========================================================= */
+
+/* Keep the existing background visible across the complete page.
+   The JSX background now sits directly inside .public-home. */
+/* Keep the original dark/orange character, but extend the same
+   visual atmosphere across the entire portfolio page. */
+.public-home {
+  isolation: isolate;
+  background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgba(233, 108, 85, 0.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 82%,
+      rgba(168, 78, 61, 0.13),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #0d0b0b 0%,
+      #090909 48%,
+      #0c0a0a 100%
+    );
+}
+
+.public-home-background {
+  z-index: 0;
+  background: transparent;
+}
+
+/* Keep all actual page content above the background layer. */
+.public-home > *:not(.public-home-background) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Proper left/right alignment for multi-line descriptive text. */
+.public-home-description,
+.public-section-heading p,
+.public-about-copy > p,
+.public-panel p,
+.public-timeline-item p,
+.public-detail-header p,
+.public-detail-description {
+  text-align: justify;
+  text-justify: inter-word;
+  text-align-last: left;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* On narrow screens, keep the same alignment while preventing
+   long text from pushing outside its container. */
+@media (max-width: 600px) {
+  .public-home-description,
+  .public-section-heading p,
+  .public-about-copy > p,
+  .public-panel p,
+  .public-detail-header p,
+  .public-detail-description {
+    text-align: justify;
+    text-justify: inter-word;
+    text-align-last: left;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .public-home,
+  .public-section,
+  .public-panel,
+  .public-card-grid,
+  .public-timeline,
+  .public-detail-content {
+    min-width: 0;
+  }
+}
+
