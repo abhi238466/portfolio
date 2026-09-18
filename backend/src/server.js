@@ -138,11 +138,34 @@ app.use(helmet());
 |--------------------------------------------------------------------------
 */
 
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+  "http://localhost:5174",
+].filter(Boolean);
+
 app.use(
   cors({
-    origin:
-      process.env.FRONTEND_URL ||
-      "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        /^https:\/\/abhishek-portfolio-[a-z0-9-]+-aroma-trace\.vercel\.app$/.test(
+          origin
+        ) ||
+        origin ===
+          "https://abhishek-portfolio-aroma-trace.vercel.app";
+
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
