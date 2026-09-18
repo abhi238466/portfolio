@@ -50,7 +50,8 @@ const createAdminToken = (adminId) => {
 
 const setAuthCookie = (res, token) => {
   const isProduction =
-    process.env.NODE_ENV === "production";
+    process.env.NODE_ENV === "production" ||
+    Boolean(process.env.RENDER);
 
   res.cookie("portfolio_admin_token", token, {
     httpOnly: true,
@@ -69,7 +70,8 @@ const setAuthCookie = (res, token) => {
 
 const clearAuthCookie = (res) => {
   const isProduction =
-    process.env.NODE_ENV === "production";
+    process.env.NODE_ENV === "production" ||
+    Boolean(process.env.RENDER);
 
   res.clearCookie("portfolio_admin_token", {
     httpOnly: true,
