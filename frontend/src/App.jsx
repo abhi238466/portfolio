@@ -155,6 +155,33 @@ const publicNavigationItems = [
   { id: "contact", label: "Contact", href: "#contact" },
 ];
 
+/* =========================================================
+   PUBLIC PORTFOLIO LOADING SCREEN
+   ========================================================= */
+
+function PublicPortfolioLoading() {
+  return (
+    <div className="public-data-loading">
+      <div className="public-data-loading-card">
+        <div className="public-data-loading-brand">
+          A
+        </div>
+
+        <div
+          className="public-data-loading-spinner"
+          aria-hidden="true"
+        />
+
+        <h1>Loading portfolio</h1>
+
+        <p>
+          Preparing your personal career experience...
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function PublicPortfolio() {
   const [portfolioData, setPortfolioData] = useState({
     profile: {},
@@ -282,11 +309,7 @@ function PublicPortfolio() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="public-data-loading">
-        Loading portfolio...
-      </div>
-    );
+    return <PublicPortfolioLoading />;
   }
 
   if (error) {

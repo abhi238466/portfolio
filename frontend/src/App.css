@@ -567,6 +567,185 @@ html.dark ::-webkit-scrollbar-thumb:hover {
 
 
 /* =========================================================
+   PUBLIC DATA LOADING SCREEN
+   ========================================================= */
+
+.public-data-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 8% 0%,
+      rgba(255, 126, 99, 0.13),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 94% 18%,
+      rgba(233, 154, 98, 0.10),
+      transparent 70%
+    ),
+    var(--app-bg);
+
+  color: var(--app-text);
+}
+
+.public-data-loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: min(100%, 430px);
+  padding: 40px 30px;
+
+  border: 1px solid var(--app-border);
+  border-radius: 24px;
+
+  background: var(--app-surface-raised);
+  box-shadow: 0 30px 80px var(--app-shadow);
+
+  text-align: center;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.public-data-loading-brand {
+  display: grid;
+  place-items: center;
+
+  width: 62px;
+  height: 62px;
+  margin-bottom: 20px;
+
+  border: 1px solid rgba(232, 95, 75, 0.28);
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(232, 95, 75, 0.14),
+      rgba(233, 154, 98, 0.10)
+    );
+
+  color: var(--app-coral);
+  font-size: 28px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.public-data-loading-spinner {
+  width: 27px;
+  height: 27px;
+  margin-bottom: 20px;
+
+  border: 2px solid rgba(232, 95, 75, 0.18);
+  border-top-color: var(--app-coral);
+  border-right-color: var(--app-peach);
+
+  border-radius: 50%;
+
+  animation: public-data-loading-spin 0.8s linear infinite;
+}
+
+.public-data-loading-card h1 {
+  margin: 0;
+
+  color: var(--app-text);
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.public-data-loading-card p {
+  max-width: 320px;
+  margin: 10px 0 0;
+
+  color: var(--app-text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@keyframes public-data-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   PUBLIC LOADING — DARK THEME
+   ========================================================= */
+
+html.dark .public-data-loading {
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 8% 0%,
+      rgba(255, 111, 82, 0.10),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 94% 18%,
+      rgba(255, 178, 108, 0.06),
+      transparent 70%
+    ),
+    var(--app-bg);
+}
+
+/* =========================================================
+   PUBLIC LOADING — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .public-data-loading {
+    padding: 18px;
+  }
+
+  .public-data-loading-card {
+    width: 100%;
+    padding: 32px 22px;
+    border-radius: 21px;
+  }
+
+  .public-data-loading-brand {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 17px;
+    border-radius: 16px;
+    font-size: 25px;
+  }
+
+  .public-data-loading-card h1 {
+    font-size: 18px;
+  }
+
+  .public-data-loading-card p {
+    max-width: 280px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   PUBLIC LOADING — REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .public-data-loading-spinner {
+    animation: none;
+  }
+}
+
+/* =========================================================
    ADMIN ROUTE AUTHENTICATION LOADING
    ========================================================= */
 

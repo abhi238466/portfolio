@@ -417,16 +417,16 @@
   scroll-margin-top: 130px;
 }
 
-.public-section-heading {
-  max-width: 720px;
-  margin-bottom: 34px;
-}
-
 .public-section-eyebrow {
   color: #ff927b;
   font-size: 11px;
   letter-spacing: 0.18em;
   font-weight: 800;
+}
+
+.public-section-heading {
+  max-width: 720px;
+  margin-bottom: 34px;
 }
 
 .public-section-heading h2 {
@@ -1867,9 +1867,15 @@
 }
 
 /* Keep all actual page content above the background layer. */
-.public-home > *:not(.public-home-background) {
+.public-home > *:not(.public-home-background):not(.public-detail-backdrop) {
   position: relative;
   z-index: 1;
+}
+/* Keep detail modal fixed to the viewport */
+.public-detail-backdrop {
+  position: fixed !important;
+  inset: 0;
+  z-index: 1000 !important;
 }
 
 /* Proper left/right alignment for multi-line descriptive text. */
@@ -1913,3 +1919,171 @@
   }
 }
 
+/* =========================================================
+   CLEAN RESPONSIVE DETAIL MODAL
+   One consistent layout for desktop, tablet and mobile
+
+   FIXED: added vh fallback before dvh/svh so browsers that
+   don't understand dynamic/small viewport units still get a
+   correct height instead of silently ignoring the rule
+   (this was the main cause of the modal being cut off on
+   some phones). Also added safe-area-inset padding so the
+   bottom of the scrollable content isn't hidden behind the
+   home-indicator / gesture bar on notched phones.
+   ========================================================= */
+
+.public-detail-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 100% !important;
+  height: 100vh !important;  /* fallback for browsers without dvh support */
+  height: 100dvh !important;
+
+  padding: 12px !important;
+  box-sizing: border-box !important;
+
+  overflow: hidden !important;
+  background: rgba(0, 0, 0, 0.82) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.public-detail-modal {
+  position: relative !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  width: min(980px, 100%) !important;
+  height: min(850px, calc(100vh - 24px)) !important;   /* fallback */
+  height: min(850px, calc(100svh - 24px)) !important;
+  max-height: calc(100vh - 24px) !important;            /* fallback */
+  max-height: calc(100svh - 24px) !important;
+  min-height: 0 !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  border-radius: 22px !important;
+}
+
+/* Header does not scroll */
+.public-detail-header {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  min-width: 0 !important;
+
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+
+  gap: 16px !important;
+  padding: 22px 26px !important;
+  z-index: 2 !important;
+}
+
+/* Close button */
+.public-detail-close {
+  position: relative !important;
+  z-index: 5 !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  flex: 0 0 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+
+  visibility: visible !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+}
+
+/* Only modal content scrolls */
+.public-detail-content {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  max-height: none !important;
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  padding: 26px !important;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+
+  box-sizing: border-box !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Keep images within the modal */
+.public-detail-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent long text overflow */
+.public-detail-header h2,
+.public-detail-header p,
+.public-detail-row,
+.public-detail-row strong,
+.public-detail-description {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Mobile and small screens */
+@media (max-width: 600px) {
+  .public-detail-backdrop {
+    padding: 8px !important;
+  }
+
+  .public-detail-modal {
+    width: 100% !important;
+    height: calc(100vh - 16px) !important;   /* fallback */
+    height: calc(100svh - 16px) !important;
+    max-height: calc(100vh - 16px) !important;  /* fallback */
+    max-height: calc(100svh - 16px) !important;
+    border-radius: 18px !important;
+  }
+
+  .public-detail-header {
+    gap: 10px !important;
+    padding: 16px !important;
+  }
+
+  .public-detail-header h2 {
+    font-size: 23px !important;
+  }
+
+  .public-detail-close {
+    flex-basis: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .public-detail-content {
+    padding: 16px !important;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .public-detail-row {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+}
+
+/* Prevent background scrolling when modal is open */
+body:has(.public-detail-backdrop) {
+  overflow: hidden !important;
+}
